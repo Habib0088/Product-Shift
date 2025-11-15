@@ -2,8 +2,9 @@ import React from 'react';
 import logo from "../../assets/logo.png"
 const Logo = () => {
     return (
-        <div>
+        <div className='flex items-end'>
             <img src={logo} alt="" />
+            <h2 className='text-2xl font-semibold -ms-2.5'>ZapShift</h2>
         </div>
     );
 };
