@@ -26,6 +26,7 @@ const Brand = () => {
         slidesPerView={4}
         centeredSlides={true}
         spaceBetween={30}
+        loop={true}
         grabCursor={true}
           autoplay={{
           delay: 500,
@@ -35,7 +36,7 @@ const Brand = () => {
           clickable: true,
         }}
         modules={[Autoplay,Pagination]}
-        className="mySwiper py-6 mt-5"
+        className="mySwiper  mt-12"
       >
         {
             brands.map(brand=> <SwiperSlide><img src={brand} alt="" /></SwiperSlide>)
