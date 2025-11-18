@@ -10,7 +10,7 @@ const Service = ({ serviceResponse }) => {
     <div className="bg-secondary py-12 mx-2 rounded-md">
       <div className="text-center w-11/12 mx-auto">
         <h1 className="font-bold text-white">Our Services</h1>
-        <p className="text-white md:w-6/12 mx-auto mt-3">
+        <p className="text-white md:w-6/12 mx-auto my-3">
           Enjoy fast, reliable parcel delivery with real-time tracking and zero
           hassle. From personal packages to business shipments — we deliver on
           time, every time.
