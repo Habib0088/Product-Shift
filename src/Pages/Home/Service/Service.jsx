@@ -4,7 +4,7 @@ import logo from '../../../assets/service.png'
 
 const Service = ({ serviceResponse }) => {
   const serviceData = use(serviceResponse);
-  console.log(serviceData);
+
 
   return (
     <div className="bg-secondary py-12 mx-2 rounded-md">

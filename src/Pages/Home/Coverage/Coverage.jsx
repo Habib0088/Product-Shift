@@ -59,8 +59,8 @@ const Coverage = () => {
               className="grow"
               placeholder="Search"
             />
-            <kbd className="kbd kbd-sm">⌘</kbd>
-            <kbd className="kbd kbd-sm">K</kbd>
+            <kbd className="kbd kbd-sm">Search</kbd>
+            
           </label>
         </form>
       </div>
