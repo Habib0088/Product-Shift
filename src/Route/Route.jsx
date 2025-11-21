@@ -7,6 +7,7 @@ import Registration from "../Component/Authentication/Registration/Registration"
 import LogIn from "../Component/Authentication/LogIn/LogIn";
 import PrivateRoute from "./PrivateRoute";
 import Rider from "../Component/Rider/Rider";
+import SendParcel from "../Component/SendPercel/SendParcel";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
         },{
           path:'/rider',
           element:<PrivateRoute><Rider></Rider></PrivateRoute>
+        },{
+          path:'/sendParcel',
+          element:<PrivateRoute><SendParcel></SendParcel></PrivateRoute>,
+           loader:()=>fetch('/warehouses.json').then(res=>res.json())
         }
     ]
   },
