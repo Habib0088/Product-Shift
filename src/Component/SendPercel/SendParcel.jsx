@@ -1,13 +1,23 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
+import useAuth from "../../hook/useAuth";
+
+import axios from "axios";
 const SendParcel = () => {
+  // const {user}=useAuth
+  const {user}=useAuth()
+  const axiosInstance = axios.create({
+  baseURL: 'http://localhost:3000',
+ 
+});
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   const regionData = useLoaderData();
@@ -25,10 +35,64 @@ const SendParcel = () => {
 
   const handleFormData = (data) => {
     console.log(data);
-    const sameDistrict=data.senderDistrict===data.receiverDistrict;
-      console.log(sameDistrict);
-      
+    const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+    //   console.log(sameDistrict);
+    const document = data.parcelType === "document";
+    const weight = parseFloat(data.ParcelWeight);
+
+    let cost = 0;
+    if (document) {
+      if (isSameDistrict) {
+        cost = 60;
+      } else {
+        {
+          cost = 80;
+        }
+      }
+    } else {
+      if (weight <= 3) {
+        if (isSameDistrict) {
+          cost = 110;
+        } else {
+          cost = 150;
+        }
+      } else {
+        if (isSameDistrict) {
+          cost = 110 + (weight - 3) * 40;
+        } else {
+          cost = 150 + (weight - 3) * 40 + 40;
+        }
+      }
+    }
+    // Sweet start
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Your parcel cost is ${cost} $`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "I Agree",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosInstance.post('/parcels', { ...data})
+        .then(response => {
+          console.log(response.data)})
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
+
+        Swal.fire({
+          title: "Yes",
+          text: "Your file has been Added Successfully.",
+          icon: "success",
+        });
+      }
+    });
+    // Sweet end
+    console.log(cost);
   };
+
   return (
     <div className="w-11/12 mx-auto my-10">
       <h1 className="text-5xl font-bold ">Add Parcel</h1>
@@ -89,9 +153,24 @@ const SendParcel = () => {
               <input
                 type="text"
                 {...register("senderName")}
+                // defaultValue={}
                 className="w-full input"
+                defaultValue={user?.displayName}
                 placeholder="Sender Name"
               />
+              </fieldset>
+
+              {/* Email */}
+              <fieldset className="fieldset">
+              <label className="label font-bold text-xl">Email</label>
+              <input
+                type="text"
+                {...register("senderEmail")}
+                defaultValue={user?.email}
+                className="w-full input"
+                placeholder="Email"
+              />
+              </fieldset>
 
               {/*Region  */}
               <fieldset className="fieldset">
@@ -125,7 +204,7 @@ const SendParcel = () => {
                   ))}
                 </select>
               </fieldset>
-            </fieldset>
+            
 
             {/* Address */}
 
@@ -141,7 +220,7 @@ const SendParcel = () => {
           </div>
           {/* Receiver inf */}
           <div>
-            <h1 className="text-3xl font-bold">Sender Details</h1>
+            <h1 className="text-3xl font-bold">Receiver Details</h1>
 
             <fieldset className="fieldset">
               <label className="label font-bold text-xl">Receiver Name</label>
@@ -152,6 +231,16 @@ const SendParcel = () => {
                 placeholder="Receiver Name"
               />
             </fieldset>
+            {/* Email */}
+              <fieldset className="fieldset">
+              <label className="label font-bold text-xl">Email</label>
+              <input
+                type="text"
+                {...register("receiverEmail")}
+                className="w-full input"
+                placeholder="Email"
+              />
+              </fieldset>
 
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Region</legend>
