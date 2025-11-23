@@ -64,6 +64,7 @@ const SendParcel = () => {
         }
       }
     }
+    data.cost=cost;
     // Sweet start
     Swal.fire({
       title: "Are you sure?",
