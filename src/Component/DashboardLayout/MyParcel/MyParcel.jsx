@@ -73,7 +73,8 @@ const MyParcel = () => {
                 <th>{index + 1}</th>
                 <td>{parcel?.name}</td>
                 <td>{parcel?.cost}</td>
-                <Link to={`/dashboard/payment/${parcel._id}`}><td><button className="btn btn-primary text-black">Pay</button></td></Link>
+                <Link to={`/dashboard/payment/${parcel._id}`}><td><button className="btn btn-primary text-black">{parcel.paymentStatus==="unpaid"?<span>Pay</span>:<span className="text-green-400">Paid</span>
+                }</button></td></Link>
                 <td></td>
                 <td>
                   <button className="btn mr-2 hover:bg-gray-300">

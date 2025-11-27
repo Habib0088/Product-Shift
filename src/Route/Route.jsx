@@ -11,6 +11,9 @@ import SendParcel from "../Component/SendPercel/SendParcel";
 import DashboardLayout from "../Component/DashboardLayout/DashboardLayout/DashboardLayout";
 import MyParcel from "../Component/DashboardLayout/MyParcel/MyParcel";
 import Payment from "../Component/DashboardLayout/Payment/Payment";
+import PaymenSuccessful from "../Component/DashboardLayout/Payment/PaymenSuccessful";
+import PaymentCancelled from "../Component/DashboardLayout/Payment/PaymentCancelled";
+import AnimatedPage from "../Component/Animate/Animate";
 
 
 export const router = createBrowserRouter([
@@ -57,7 +60,19 @@ export const router = createBrowserRouter([
       },{
         path:'/dashboard/payment/:id',
         Component:Payment
+      },
+      {
+        path:'/dashboard/payment-success',
+        Component:PaymenSuccessful
+      },
+      {
+        path:'/dashboard/payment-cancelled',
+        Component:PaymentCancelled
       }
     ]
+  },
+  {
+    path:'animate',
+    Component:AnimatedPage
   }
 ]);

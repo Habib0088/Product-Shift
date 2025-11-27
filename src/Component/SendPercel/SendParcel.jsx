@@ -1,12 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 import useAuth from "../../hook/useAuth";
 
 import axios from "axios";
 const SendParcel = () => {
+  const navigate =useNavigate()
   // const {user}=useAuth
   const {user}=useAuth()
   const axiosInstance = axios.create({
@@ -34,6 +35,7 @@ const SendParcel = () => {
   };
 
   const handleFormData = (data) => {
+    data.paymentStatus="unpaid"
     console.log(data);
     const isSameDistrict = data.senderDistrict === data.receiverDistrict;
     //   console.log(sameDistrict);
@@ -78,6 +80,9 @@ const SendParcel = () => {
       if (result.isConfirmed) {
         axiosInstance.post('/parcels', { ...data})
         .then(response => {
+          if(response.data.insertedId){
+            navigate('/dashboard/myParcel')
+          }
           console.log(response.data)})
         .catch(error => {
           console.error('There was an error!', error);
