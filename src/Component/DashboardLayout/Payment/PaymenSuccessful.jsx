@@ -3,11 +3,11 @@ import { useSearchParams } from "react-router";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 
 const PaymenSuccessful = () => {
-  const [paymentInfo, setPaymentInfo] = useState({})
+  const [paymentInfo, setPaymentInfo] = useState({});
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const axiosSecure = useAxiosSecure();
-//   console.log(sessionId);
+  console.log(paymentInfo);
 
   useEffect(() => {
     if (sessionId) {
@@ -15,14 +15,18 @@ const PaymenSuccessful = () => {
         .patch(`/payment-success/?session_id=${sessionId}`)
         .then((res) => {
           console.log(res.data);
-          setPaymentInfo({ transactionId: res.data.transactionId,
-            trackingId:res.data.trackingId})
+          setPaymentInfo({
+            transactionId: res.data.transactionId,
+            trackingId: res.data.trackingId,
+          });
         });
     }
-  }, [sessionId, axiosSecure])
-  return(
+  }, [sessionId, axiosSecure]);
+  return (
     <div>
       <h2>Payment Successful</h2>
+      <p>{paymentInfo?.transactionId}</p>
+      <p>{paymentInfo?.trackingId}</p>
     </div>
   );
 };

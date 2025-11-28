@@ -14,6 +14,7 @@ import Payment from "../Component/DashboardLayout/Payment/Payment";
 import PaymenSuccessful from "../Component/DashboardLayout/Payment/PaymenSuccessful";
 import PaymentCancelled from "../Component/DashboardLayout/Payment/PaymentCancelled";
 import AnimatedPage from "../Component/Animate/Animate";
+import PaymentHistory from "../Component/DashboardLayout/PaymentHistory/PaymentHistory";
 
 
 export const router = createBrowserRouter([
@@ -35,6 +36,9 @@ export const router = createBrowserRouter([
           path:'/sendParcel',
           element:<PrivateRoute><SendParcel></SendParcel></PrivateRoute>,
            loader:()=>fetch('/warehouses.json').then(res=>res.json())
+        },{
+          path:'payment-history',
+          Component:PaymentHistory
         }
     ]
   },
