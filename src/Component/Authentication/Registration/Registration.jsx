@@ -46,7 +46,30 @@ console.log(location.state);
       >
         <div className="card-body">
           <fieldset className="fieldset ">
-            <label className="label">Email</label>
+            {/* Name */}
+            <label className="label font-semibold">Name</label>
+            <input
+              {...register("name", { required: true })}
+              type="text"
+              className="input"
+              placeholder="Your Name"
+            />
+            {errors.email?.type === "required" && (
+              <p className="text-red-500">You have not provided Name</p>
+            )}
+            {/* Photo */}
+            <label className="label font-semibold">Upload Photo</label>
+            <input
+              {...register("photo", { required: true })}
+              type="file"
+              className="file-input"
+              placeholder="Photo"
+            />
+            {errors.email?.type === "required" && (
+              <p className="text-red-500">You have not provided Photo</p>
+            )}
+            {/* Email */}
+            <label className="label font-semibold">Email</label>
             <input
               {...register("email", { required: true })}
               type="email"
@@ -56,7 +79,8 @@ console.log(location.state);
             {errors.email?.type === "required" && (
               <p className="text-red-500">You have not provided email</p>
             )}
-            <label className="label">Password</label>
+            {/* Password */}
+            <label className="label font-semibold font-semi-bold">Password</label>
             <input
               {...register("password", {
                 required: true,
