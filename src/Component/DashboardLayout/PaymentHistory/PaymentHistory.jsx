@@ -2,20 +2,22 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import useAuth from "../../../hook/useAuth";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
+import AuthContext from "../../Context/AuthContext/AuthContext";
 
 const PaymentHistory = () => {
   const { user } = useAuth();
-  console.log(user);
+//   const{user}=AuthContext()
+//   console.log(user);
   
   const axiosSecure = useAxiosSecure();
-  const { data:payments = [] ,refetch} = useQuery({
+  const { data:payments = [] } = useQuery({
     queryKey: [],
     queryFn: async () => {
         const res=await axiosSecure.get(`/payments?email=${user.email}`)
         return res.data
     },
   });
-  console.log(payments);
+//   console.log(payments);
   
   return <div className="md:w-11/12 mx-auto">
    
