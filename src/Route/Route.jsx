@@ -16,6 +16,7 @@ import PaymentCancelled from "../Component/DashboardLayout/Payment/PaymentCancel
 import AnimatedPage from "../Component/Animate/Animate";
 import PaymentHistory from "../Component/DashboardLayout/PaymentHistory/PaymentHistory";
 import ApproveRiders from "../Component/DashboardLayout/ApproveRiders/ApproveRiders";
+import UsersManagement from "../Component/DashboardLayout/UsersManagement/UsersManagement";
 
 
 export const router = createBrowserRouter([
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       },{
         path:'/dashboard/approveRiders',
         Component:ApproveRiders
+      },
+      {
+        path:'/dashboard/usersManagement',
+        Component:UsersManagement
       }
     ]
   },
