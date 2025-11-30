@@ -2,6 +2,8 @@ import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { NavLink, Outlet } from "react-router";
 import { FaRegCreditCard } from "react-icons/fa";
+import { RiEBike2Fill } from "react-icons/ri";
+
 
 const DashboardLayout = () => {
   return (
@@ -96,6 +98,19 @@ const DashboardLayout = () => {
                 >
                   <CiDeliveryTruck className="my-1.5 inline-block size-4" />
                   <span className="is-drawer-close:hidden">My Parcel</span>
+                </button>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/approveRiders">
+                <button
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Approve Riders"
+                >
+                  <RiEBike2Fill className="my-1.5 inline-block size-4" />
+
+                  {/* <CiDeliveryTruck  /> */}
+                  <span className="is-drawer-close:hidden">Approve Riders</span>
                 </button>
               </NavLink>
             </li>
