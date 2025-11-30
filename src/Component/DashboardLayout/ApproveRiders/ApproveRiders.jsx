@@ -12,25 +12,26 @@ const ApproveRiders = () => {
       return result.data;
     },
   });
-   const updateRider=(id,status)=>{
+   const updateRider=(rider,status)=>{
     const info = {
-      status: status,
+      status:status,
+      email:rider.email
     };
-    axiosSecure.patch(`/riders/${id}`, info).then(res=>{
+    axiosSecure.patch(`/riders/${rider._id}`, info).then(res=>{
         console.log(res.data);
         refetch()
         
     }).catch(err=>console.log(err)
     )
   }
-  const handleApprove = (id) => {
+  const handleApprove = (rider) => {
     // console.log(id);
-    updateRider(id,'approved')
+    updateRider(rider,'approved')
     
   };
-  const handleReject=(id)=>{
+  const handleReject=(rider)=>{
     // console.log();
-    updateRider(id,'Refected')
+    updateRider(rider,'Rejected')
     
   }
  
@@ -61,12 +62,12 @@ const ApproveRiders = () => {
                 <td>{rider.status}</td>
                 <td>
                   <button
-                    onClick={() => handleApprove(rider._id)}
+                    onClick={() => handleApprove(rider)}
                     className="btn m-1"
                   >
                     <FaUserCheck />
                   </button>
-                  <button onClick={()=>handleReject(rider._id)} className="btn m-1">
+                  <button onClick={()=>handleReject(rider)} className="btn m-1">
                     <FaUserSlash />
                   </button>
                   <button className="btn m-1">
