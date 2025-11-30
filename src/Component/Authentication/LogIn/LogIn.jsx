@@ -2,9 +2,11 @@ import React, { use } from "react";
 import { useForm } from "react-hook-form";
 import AuthContext from "../../Context/AuthContext/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 
 const LogIn = () => {
   const location=useLocation()
+  const axiosSecure=useAxiosSecure()
 
   const navigator=useNavigate()
 
@@ -15,6 +17,19 @@ const LogIn = () => {
      loginWithGoogle().then((result)=>{
         const user=result.user;
         console.log(user);
+
+        const userProfileCreate={
+          email:user.email,
+          displayName:user.displayName,
+          photoURL:user.photoURL
+
+        }
+        axiosSecure.post('/users',userProfileCreate).then((res)=>{
+          console.log( res.data);
+          navigator(location.state || '/')
+        }).catch(err=>console.log(err)
+        )
+
         navigator(location.state || '/')
      }).catch((error)=>{
         console.log(error.message);

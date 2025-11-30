@@ -1,19 +1,41 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hook/useAuth";
 import { useLocation, useNavigate } from "react-router";
+import axios from "axios";
+import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
+import { useState } from "react";
 
 const Registration = () => {
-  const { createUser, loginWithGoogle } = useAuth();
-    const location=useLocation()
+  const [show, setShow] = useState(false);
+  const { createUser, loginWithGoogle, updateUserProfile } = useAuth();
+  const location = useLocation();
 
-  const navigator=useNavigate()
-console.log(location.state);
-  
+  const axiosSecure = useAxiosSecure();
+
+  const navigator = useNavigate();
+  // console.log(location.state);
+
   const handleloginWithGoogle = () => {
     loginWithGoogle()
       .then((result) => {
-        console.log(result.user);
-        navigator(location.state || '/')
+         const user=result.user;
+        console.log(user);
+
+        const userProfileCreate={
+          email:user.email,
+          displayName:user.displayName,
+          photoURL:user.photoURL
+
+        }
+        axiosSecure.post('/users',userProfileCreate).then((res)=>{
+          console.log( res.data);
+          navigator(location.state || '/')
+        }).catch(err=>console.log(err)
+        )
+
+
+        // console.log(result.user);
+        navigator(location.state || "/");
       })
       .catch((error) => {
         console.log(error.message);
@@ -26,11 +48,51 @@ console.log(location.state);
   } = useForm();
 
   const handleRegister = (data) => {
-    console.log(data);
+    // console.log(data);
+    const imageUrl = data.photo[0];
+    // console.log(imageUrl);
     createUser(data.email, data.password)
       .then((result) => {
+        // 1 store the image in formData
+        const formData = new FormData();
+        formData.append("image", imageUrl);
+        // send the photo to store and get the url
+        const imageUrlKey = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_Image_host
+        }`;
+
+        axios.post(imageUrlKey, formData).then((res) => {
+          console.log(res.data.data.url);
+
+          const userProfileCreate = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+            email: data.email,
+          };
+          // Create user to the database
+          axiosSecure
+            .post("http://localhost:3000/users", userProfileCreate)
+            .then((res) => {
+              if (res.data.insertedId) {
+                console.log("created user ");
+              }
+            })
+            .catch((err) => console.log(err));
+
+          // Update profile to firebase
+          const userProfile = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+          updateUserProfile(userProfile)
+            .then(() => {
+              console.log("profile updated successfully");
+            })
+            .catch((err) => console.log(err));
+        });
+        // axios.post(imageUrl)
         const user = result.user;
-        console.log(user);
+        // console.log(user);
       })
       .catch((err) => {
         console.log(err.message);
@@ -40,9 +102,8 @@ console.log(location.state);
     <div className="w11/12 mx-auto ">
       <h1 className="text-center font-bold text-2xl"></h1>
       <form
-        className=" card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"
+        className=" card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl relative"
         onSubmit={handleSubmit(handleRegister)}
-        
       >
         <div className="card-body">
           <fieldset className="fieldset ">
@@ -80,17 +141,25 @@ console.log(location.state);
               <p className="text-red-500">You have not provided email</p>
             )}
             {/* Password */}
-            <label className="label font-semibold font-semi-bold">Password</label>
+            <label className="label font-semibold font-semi-bold">
+              Password
+            </label>
             <input
               {...register("password", {
                 required: true,
                 pattern:
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
               })}
-              type="password"
-              className="input"
+              type={show ? "password" : "text"}
+              className="input "
               placeholder="Password"
             />
+            <span
+              onClick={() => setShow(!show)}
+              className="absolute  top-[275px] right-8"
+            >
+              {show ? "Show" : "Hide"}
+            </span>
             {errors.password?.type === "pattern" && (
               <p className="text-red-500">
                 Password must be at least 8 characters, include uppercase,
@@ -101,7 +170,9 @@ console.log(location.state);
               <p className="text-red-500">Your have not provided Passoword</p>
             )}
             <div></div>
-            <button className="btn btn-neutral mt-4 w-full">Register Now</button>
+            <button className="btn btn-neutral mt-4 w-full">
+              Register Now
+            </button>
             <button
               onClick={handleloginWithGoogle}
               className="btn bg-white text-black border-[#e5e5e5]"

@@ -16,7 +16,7 @@ const Coverage = () => {
   const division = useLoaderData();
   const mapRef = useRef(null);
   const position = [23.8103, 90.4125]; // Dhaka (example)
-  console.log(division);
+  // console.log(division);
   const handleSerach = (e) => {
     e.preventDefault();
     const data = e.target.search.value;
