@@ -4,10 +4,12 @@ import { NavLink, Outlet } from "react-router";
 import { FaRegCreditCard, FaUser } from "react-icons/fa";
 import { RiEBike2Fill } from "react-icons/ri";
 import { FaUsersGear } from "react-icons/fa6";
+import useRole from "../../../hook/useRole";
 
 
 
 const DashboardLayout = () => {
+  const {role}=useRole()
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -103,7 +105,9 @@ const DashboardLayout = () => {
                 </button>
               </NavLink>
             </li>
-            <li>
+           {
+            role==='admin'&&<>
+             <li>
               <NavLink to="/dashboard/approveRiders">
                 <button
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -131,6 +135,10 @@ const DashboardLayout = () => {
               </NavLink>
             </li>
 
+            </>
+
+
+           }
             <li>
               <button
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
