@@ -34,6 +34,8 @@ const ApproveRiders = () => {
     updateRider(rider,'Rejected')
     
   }
+  console.log(riders);
+  
  
   return (
     <div>
@@ -49,7 +51,8 @@ const ApproveRiders = () => {
               <th>NO</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Status</th>
+              <th>Rider Status</th>
+              <th>Work Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -60,6 +63,7 @@ const ApproveRiders = () => {
                 <td>{rider.name}</td>
                 <td>{rider.email}</td>
                 <td>{rider.status}</td>
+                <td>{rider.workStatus}</td>
                 <td>
                   <button
                     onClick={() => handleApprove(rider)}

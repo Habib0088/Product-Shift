@@ -18,6 +18,7 @@ import PaymentHistory from "../Component/DashboardLayout/PaymentHistory/PaymentH
 import ApproveRiders from "../Component/DashboardLayout/ApproveRiders/ApproveRiders";
 import UsersManagement from "../Component/DashboardLayout/UsersManagement/UsersManagement";
 import AdminRoute from "./AdminRoute";
+import AssignRiders from "../Component/DashboardLayout/AssignRiders/AssignRiders";
 
 
 export const router = createBrowserRouter([
@@ -43,7 +44,8 @@ export const router = createBrowserRouter([
            loader:()=>fetch('/warehouses.json').then(res=>res.json())
         },{
           path:'payment-history',
-          Component:PaymentHistory
+          // Component:PaymentHistory
+          element:<PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
         }
     ]
   },
@@ -79,13 +81,16 @@ export const router = createBrowserRouter([
         Component:PaymentCancelled
       },{
         path:'/dashboard/approveRiders',
-        // element:<AdminRoute><ApproveRiders></ApproveRiders></AdminRoute>
-        Component:ApproveRiders
+        element:<AdminRoute><ApproveRiders></ApproveRiders></AdminRoute>
+        // Component:ApproveRiders
       },
       {
         path:'/dashboard/usersManagement',
-        // element:<AdminRoute><UsersManagement></UsersManagement></AdminRoute>
-        Component:UsersManagement
+        element:<AdminRoute><UsersManagement></UsersManagement></AdminRoute>
+        // Component:UsersManagement
+      },{
+        path:'assignRiders',
+        element:<PrivateRoute><AssignRiders></AssignRiders></PrivateRoute>
       }
     ]
   },

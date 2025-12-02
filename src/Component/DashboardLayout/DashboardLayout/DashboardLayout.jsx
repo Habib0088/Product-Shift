@@ -2,7 +2,7 @@ import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { NavLink, Outlet } from "react-router";
 import { FaRegCreditCard, FaUser } from "react-icons/fa";
-import { RiEBike2Fill } from "react-icons/ri";
+import { RiEBike2Fill, RiEBikeFill } from "react-icons/ri";
 import { FaUsersGear } from "react-icons/fa6";
 import useRole from "../../../hook/useRole";
 
@@ -119,18 +119,35 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">Approve Riders</span>
                 </button>
               </NavLink>
+              </li>
+              <li>
               <NavLink to="/dashboard/usersManagement">
                 <button
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Users Management"
                 >
-                  {/* <FaUser></FaUser> */}
-                  {/* <RiEBike2Fill  /> */}
+               
                   <FaUsersGear  className="m-1.5 inline-block size-4" />
 
 
                   {/* <CiDeliveryTruck  /> */}
                   <span className="is-drawer-close:hidden">Users Management</span>
+                </button>
+              </NavLink>
+            </li>
+              <li>
+              <NavLink to="/dashboard/assignRiders">
+                <button
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Assign Riders"
+                >
+               <RiEBikeFill  className="m-1.5 inline-block size-4"/>
+
+                  {/* <FaUsersGear   /> */}
+
+
+                  {/* <CiDeliveryTruck  /> */}
+                  <span className="is-drawer-close:hidden">Assign Riders</span>
                 </button>
               </NavLink>
             </li>

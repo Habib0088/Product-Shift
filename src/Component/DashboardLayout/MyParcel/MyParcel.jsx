@@ -47,6 +47,10 @@ const MyParcel = () => {
       }
     });
   };
+  console.log(
+    parcels
+  );
+  
 
   return (
     <div>
@@ -63,6 +67,7 @@ const MyParcel = () => {
               <th>Cost</th>
               <th>Payment</th>
               <th>Delivery Status</th>
+              <th>Tracking Id</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -75,7 +80,8 @@ const MyParcel = () => {
                 <td>{parcel?.cost}</td>
                 <Link to={`/dashboard/payment/${parcel._id}`}><td><button className="btn btn-primary text-black">{parcel.paymentStatus==="unpaid"?<span>Pay</span>:<span className="text-green-400">Paid</span>
                 }</button></td></Link>
-                <td></td>
+                <td>{parcel?.deliveryStatus}</td>
+                <td>{parcel?.trackingId}</td>
                 <td>
                   <button className="btn mr-2 hover:bg-gray-300">
                     <FaSearch />
