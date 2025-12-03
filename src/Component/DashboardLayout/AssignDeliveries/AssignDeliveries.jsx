@@ -17,12 +17,13 @@ const AssignDeliveries = () => {
     },
   });
   console.log(parcels);
-
-  console.log(parcels);
+  
+ 
 
   const handleUpdateStatus = (parcel,status) => {
     const statusInfo = {
-      deliveryStatus: status
+      deliveryStatus: status,
+      riderId:parcel.riderId
     };
     let message=`The percel is ${status}`
     axiosSecure
@@ -60,7 +61,7 @@ const AssignDeliveries = () => {
                 <th>{i + 1}</th>
                 <td>{parcel.name}</td>
                 <td>{
-                    parcel.deliveryStatus==='rider-arriving'
+                    parcel.deliveryStatus==='accept'
                     ?<span className="font-bold text-green-500">Accepted</span> 
                     :
                     <>

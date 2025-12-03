@@ -17,14 +17,14 @@ const AssignRiders = () => {
       return res.data;
     },
   });
-  const { data: riders = [], refetch } = useQuery({
+  const { data: riders = [] } = useQuery({
     queryKey: ["parcels", selectedParcel?.senderDistrict, "available"],
     enabled: !!selectedParcel,
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`
       );
-      refetch();
+     
       return res.data;
     },
   });

@@ -2,7 +2,7 @@ import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { NavLink, Outlet } from "react-router";
 import { FaRegCreditCard, FaTasks, FaUser } from "react-icons/fa";
-import { RiEBike2Fill, RiEBikeFill } from "react-icons/ri";
+import { RiEBike2Fill, RiEBikeFill, RiTaskFill } from "react-icons/ri";
 import { FaUsersGear } from "react-icons/fa6";
 import useRole from "../../../hook/useRole";
 
@@ -121,6 +121,22 @@ const DashboardLayout = () => {
 
                   {/* <CiDeliveryTruck  /> */}
                   <span className="is-drawer-close:hidden">Assign Deliveries</span>
+                </button>
+              </NavLink>
+              </li>
+              <li>
+              <NavLink to="/dashboard/completedDeliveries">
+                <button
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Completed Deliveries"
+                >
+                  {/* <FaTasks  /> */}
+                <RiTaskFill className="m-1.5 inline-block size-4" />
+
+         
+
+                  {/* <CiDeliveryTruck  /> */}
+                  <span className="is-drawer-close:hidden">Completed Deliveries</span>
                 </button>
               </NavLink>
               </li>
