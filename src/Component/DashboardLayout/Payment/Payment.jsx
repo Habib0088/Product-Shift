@@ -35,7 +35,7 @@ const Payment = () => {
     <div className="w-2/5 mx-auto ">
       <h1>{parcel?.name}</h1>
       <h2>Price: {parcel?.cost}</h2>
-      <button onClick={handlePayment} className="btn bg-primary">
+      <button onClick={handlePayment} disabled={parcel?.paid} className="btn bg-primary">
         Pay
       </button>
     </div>

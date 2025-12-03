@@ -22,6 +22,7 @@ const AssignDeliveries = () => {
 
   const handleUpdateStatus = (parcel,status) => {
     const statusInfo = {
+      trackingId:parcel.trackingId,
       deliveryStatus: status,
       riderId:parcel.riderId
     };
@@ -61,11 +62,11 @@ const AssignDeliveries = () => {
                 <th>{i + 1}</th>
                 <td>{parcel.name}</td>
                 <td>{
-                    parcel.deliveryStatus==='accept'
+                    parcel.deliveryStatus==='Rider accepted'
                     ?<span className="font-bold text-green-500">Accepted</span> 
                     :
                     <>
-                    <button onClick={()=>handleUpdateStatus(parcel,'accept')} className='btn bg-primary text-black'>Accept</button>
+                    <button onClick={()=>handleUpdateStatus(parcel,'Rider accepted')} className='btn bg-primary text-black'>Accept</button>
                     <button onClick={()=>handleUpdateStatus(parcel,'reject')} className='btn bg-warning text-black ms-3'>Reject</button>
                     </>
                     }</td>

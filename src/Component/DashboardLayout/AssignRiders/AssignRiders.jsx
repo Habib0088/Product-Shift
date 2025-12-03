@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 
 const AssignRiders = () => {
   const [selectedParcel, setSelectedParcel] = useState(null);
+  console.log(selectedParcel);
+  
   const refModal = useRef();
   const axiosSecure = useAxiosSecure();
   const { data: parcels = [] } = useQuery({
@@ -24,7 +26,7 @@ const AssignRiders = () => {
       const res = await axiosSecure.get(
         `/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`
       );
-     
+
       return res.data;
     },
   });
@@ -44,6 +46,7 @@ const AssignRiders = () => {
       riderName: rider.name,
       riderEmail: rider.email,
       parcelId: selectedParcel._id,
+      trackingId: selectedParcel.trackingId,
     };
     axiosSecure
       .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
