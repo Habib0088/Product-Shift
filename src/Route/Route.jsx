@@ -22,6 +22,7 @@ import AssignRiders from "../Component/DashboardLayout/AssignRiders/AssignRiders
 import RiderRoute from "./RiderRoute";
 import AssignDeliveries from "../Component/DashboardLayout/AssignDeliveries/AssignDeliveries";
 import CompletedDeliveries from "../Component/DashboardLayout/CompeletdDeliveries/CompletedDeliveries";
+import TrackingParcel from "../Pages/TrackingParcel/TrackingParcel";
 
 
 export const router = createBrowserRouter([
@@ -49,6 +50,9 @@ export const router = createBrowserRouter([
           path:'payment-history',
           // Component:PaymentHistory
           element:<PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
+        },{
+          path:'/trackingParcel/:trackingId',
+          Component:TrackingParcel
         }
     ]
   },

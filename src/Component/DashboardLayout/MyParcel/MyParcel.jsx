@@ -81,7 +81,8 @@ const MyParcel = () => {
                 <Link to={`/dashboard/payment/${parcel._id}`}><td><button className="btn btn-primary text-black">{parcel.paymentStatus==="unpaid"?<span>Pay</span>:<span className="text-green-400">Paid</span>
                 }</button></td></Link>
                 <td>{parcel?.deliveryStatus}</td>
-                <td>{parcel?.trackingId}</td>
+                <Link to={`/trackingParcel/${parcel.trackingId}`}><td>{parcel?.trackingId}</td></Link>
+
                 <td>
                   <button className="btn mr-2 hover:bg-gray-300">
                     <FaSearch />
