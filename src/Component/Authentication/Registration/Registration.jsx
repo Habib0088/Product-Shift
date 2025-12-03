@@ -85,8 +85,8 @@ const Registration = () => {
             photoURL: res.data.data.url,
           };
           updateUserProfile(userProfile)
-            .then(() => {
-              console.log("profile updated successfully");
+            .then((res) => {
+              console.log("profile updated successfully",res);
             })
             .catch((err) => console.log(err));
         });
@@ -147,8 +147,8 @@ const Registration = () => {
             <input
               {...register("password", {
                 required: true,
-                pattern:
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                // pattern:
+                //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
               })}
               type={show ? "password" : "text"}
               className="input "

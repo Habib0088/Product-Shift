@@ -2,9 +2,11 @@ import { Query, useQuery } from "@tanstack/react-query";
 import React from "react";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 import { FaRegTrashAlt, FaUserCheck, FaUserSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const ApproveRiders = () => {
   const axiosSecure = useAxiosSecure();
+ 
   const { refetch,data: riders = [] } = useQuery({
     queryKey: ["riders", "pending"],
     queryFn: async () => {
@@ -12,15 +14,43 @@ const ApproveRiders = () => {
       return result.data;
     },
   });
+ 
+  
+   const handleDelete=(rider)=>{
+    axiosSecure.delete(`/riders/${rider._id}`).then(res=>{
+      if(res.data.deletedCount){
+        refetch()
+         Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: 'Deleted successfully',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+      }
+      console.log(res.data);
+      
+    })
+  }
    const updateRider=(rider,status)=>{
+     console.log(rider);
     const info = {
       status:status,
       email:rider.email
     };
     axiosSecure.patch(`/riders/${rider._id}`, info).then(res=>{
+
         console.log(res.data);
         refetch()
-        
+      if(res.data.modifiedCount){
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: 'Assigned as Rider',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+      }  
     }).catch(err=>console.log(err)
     )
   }
@@ -74,7 +104,7 @@ const ApproveRiders = () => {
                   <button onClick={()=>handleReject(rider)} className="btn m-1">
                     <FaUserSlash />
                   </button>
-                  <button className="btn m-1">
+                  <button onClick={()=>handleDelete(rider)} className="btn m-1">
                     <FaRegTrashAlt />
                   </button>
                 </td>
