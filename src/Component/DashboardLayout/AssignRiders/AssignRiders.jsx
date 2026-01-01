@@ -10,7 +10,7 @@ const AssignRiders = () => {
   
   const refModal = useRef();
   const axiosSecure = useAxiosSecure();
-  const { data: parcels = [] } = useQuery({
+  const {refetch:refetchParcels, data: parcels = [] } = useQuery({
     queryKey: ["parcels", "pending-pickup"],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -19,7 +19,7 @@ const AssignRiders = () => {
       return res.data;
     },
   });
-  const { data: riders = [] } = useQuery({
+  const { refetch:refetchRiders,data: riders = [] } = useQuery({
     queryKey: ["parcels", selectedParcel?.senderDistrict, "available"],
     enabled: !!selectedParcel,
     queryFn: async () => {
@@ -52,6 +52,8 @@ const AssignRiders = () => {
       .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
       .then((res) => {
         if (res.data.modifiedCount) {
+          refetchParcels()
+          refetchRiders()
           Swal.fire({
             position: "top-end",
             icon: "success",
