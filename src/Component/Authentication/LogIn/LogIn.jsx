@@ -54,6 +54,8 @@ const LogIn = () => {
         console.log(error.message);
       });
   };
+
+  // axiosSecure.get('/users')
   return (
     <div>
       <form

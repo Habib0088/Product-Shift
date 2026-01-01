@@ -19,3 +19,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
+// =====================================================New
+// {{{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}}}
+// Import the functions you need from the SDKs you need
+// import { initializeApp } from "firebase/app";
+// // TODO: Add SDKs for Firebase products that you want to use
+// // https://firebase.google.com/docs/web/setup#available-libraries
+
+// // Your web app's Firebase configuration
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBtIRdYO3W-r4gOfOIFbpAvxjf6KBXxqi4",
+//   authDomain: "rideshift-a9dc9.firebaseapp.com",
+//   projectId: "rideshift-a9dc9",
+//   storageBucket: "rideshift-a9dc9.firebasestorage.app",
+//   messagingSenderId: "135796418562",
+//   appId: "1:135796418562:web:95c142e3067942b3551f1b"
+// };
+
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);

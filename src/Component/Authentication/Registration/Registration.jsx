@@ -62,7 +62,7 @@ const Registration = () => {
         }`;
 
         axios.post(imageUrlKey, formData).then((res) => {
-          console.log(res.data.data.url);
+         
 
           const userProfileCreate = {
             displayName: data.name,
@@ -73,8 +73,11 @@ const Registration = () => {
           axiosSecure
             .post("http://localhost:3000/users", userProfileCreate)
             .then((res) => {
+              console.log(res.data);
               if (res.data.insertedId) {
-                console.log("created user ");
+               
+               
+                navigator("/")
               }
             })
             .catch((err) => console.log(err));
