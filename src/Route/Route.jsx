@@ -23,6 +23,7 @@ import RiderRoute from "./RiderRoute";
 import AssignDeliveries from "../Component/DashboardLayout/AssignDeliveries/AssignDeliveries";
 import CompletedDeliveries from "../Component/DashboardLayout/CompeletdDeliveries/CompletedDeliveries";
 import TrackingParcel from "../Pages/TrackingParcel/TrackingParcel";
+import Profile from "../Component/Profile/Profile";
 
 
 export const router = createBrowserRouter([
@@ -53,6 +54,9 @@ export const router = createBrowserRouter([
         },{
           path:'/trackingParcel/:trackingId',
           Component:TrackingParcel
+        },{
+          path:'/profile',
+          Component:Profile
         }
     ]
   },
