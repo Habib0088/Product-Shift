@@ -1,12 +1,16 @@
 import React from "react";
-import liveTracing from "../../../assets/live-tracking.png";
-
+import safeDelivery from "../../../assets/live-tracking.png";
+import liveTracking from "../../../assets/location-merchant.png"
+// import safeDelivery from "../../../assets/safe-delivery.png"
+import callCenter from "../../../assets/safe-delivery.png"
 const ParcelDelivary = () => {
   return (
     <div className=" py-7">
-      <div className="divider w-11/12 mx-auto"></div>
-      <div className="w-11/12 mx-auto bg-white rounded-md p-5 grid grid-cols-12 gap-3 my-4">
-        <img className="col-span-3 " src={liveTracing} alt="" />
+      {/* <div className="divider w-11/12 mx-auto"></div> */}
+      <hr className="text-gray-400" />
+      <h1 className="text-center text-2xl py-4 font-bold">Why Choose Us</h1>
+      <div className="  w-11/12 mx-auto bg-white rounded-md p-2 grid grid-cols-12 gap-3 my-4">
+        <img className="col-span-3 p-4 h-auto" src={liveTracking} alt="liveTracing" />
 
         <div className="ms-3 col-span-9 flex flex-col items-center justify-center">
           <div>
@@ -22,7 +26,7 @@ const ParcelDelivary = () => {
         </div>
       </div>
       <div className="w-11/12 mx-auto bg-white rounded-md p-5 grid grid-cols-12 gap-3 my-4">
-        <img className="col-span-3 " src={liveTracing} alt="" />
+        <img className="col-span-3 " src={safeDelivery} alt="" />
 
         <div className="ms-3 col-span-9 flex flex-col items-center justify-center">
           <div>
@@ -38,7 +42,7 @@ const ParcelDelivary = () => {
         </div>
       </div>
       <div className="w-11/12 mx-auto bg-white rounded-md p-5 grid grid-cols-12 gap-3 my-4">
-        <img className="col-span-3 " src={liveTracing} alt="" />
+        <img className="col-span-3 " src={callCenter} alt="" />
 
         <div className="ms-3 col-span-9 flex flex-col items-center justify-center">
           <div>
@@ -53,7 +57,7 @@ const ParcelDelivary = () => {
           </div>
         </div>
       </div>
-           <div className="divider w-11/12 mx-auto"></div>
+      <div className="divider w-11/12 mx-auto"></div>
     </div>
   );
 };

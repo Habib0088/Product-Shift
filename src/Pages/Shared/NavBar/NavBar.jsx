@@ -1,9 +1,14 @@
 import { Link, NavLink } from "react-router";
 import Logo from "../../../Component/Logo/Logo";
 import useAuth from "../../../hook/useAuth";
+import useRole from "../../../hook/useRole";
+import ThemeToggle from "../../../Component/ThemeToogle/Themetoogle";
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
+  // const{role}=useRole()
+  // console.log(role);
+  
   // console.log(user);
   
   const handleLogOut = () => {
@@ -13,6 +18,7 @@ const NavBar = () => {
   };
   const links = (
     <>
+    {/* <li>{role}</li> */}
       <li>
         <NavLink to="">Service</NavLink>
       </li>
@@ -89,6 +95,7 @@ const NavBar = () => {
           <button className="btn btn-primary text-black mx-4">
             <Link to="/rider">Be A Rider</Link>
           </button>
+          <ThemeToggle></ThemeToggle>
         </div>
       </div>
     </div>

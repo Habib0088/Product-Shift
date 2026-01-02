@@ -8,6 +8,7 @@ const Review = ({revierResponse}) => {
       
     return (
          <>
+         <h1 className='text-center font-bold text-2xl pb-3'> Reviews</h1>
       <Swiper
         effect={'coverflow'}
         grabCursor={true}
@@ -15,8 +16,9 @@ const Review = ({revierResponse}) => {
         slidesPerView={3}
         loop={true}
         autoplay={{
-          delay: 1000,
+          delay: 2000,
           disableOnInteraction: false,
+          pauseOnMouseEnter:true
         }}
         coverflowEffect={{
           rotate: 70,

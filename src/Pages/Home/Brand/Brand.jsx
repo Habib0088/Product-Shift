@@ -24,8 +24,8 @@ const Brand = () => {
       whileInView={{ x: 0, opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 1.2 }}
-      style={{  padding: "20px", margin: "50px 0" }}
-    >
+      style={{  padding: "10px", margin: "10px 0" }}
+    > <h1 className="text-2xl font-bold text-center">Our Proud Sponsor</h1>
       <Swiper
         slidesPerView={4}
         centeredSlides={true}
@@ -33,8 +33,9 @@ const Brand = () => {
         loop={true}
         grabCursor={true}
         autoplay={{
-          delay: 500,
+          delay: 900,
           disableOnInteraction: false,
+          pauseOnMouseEnter:true
         }}
         pagination={{
           clickable: true,
@@ -42,6 +43,7 @@ const Brand = () => {
         modules={[Autoplay, Pagination]}
         className="mySwiper  mt-12"
       >
+       
         {brands.map((brand) => (
           <SwiperSlide>
             <img src={brand} alt="" />
