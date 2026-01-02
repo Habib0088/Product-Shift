@@ -8,12 +8,8 @@ import Swal from "sweetalert2";
 const Rider = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    // formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+
   const handleRiderApplication = (data) => {
     axiosSecure
       .post("/riders", data)
@@ -22,153 +18,146 @@ const Rider = () => {
           Swal.fire({
             position: "top-end",
             icon: "success",
-            title: "Your work has been saved",
+            title: "Your application has been submitted!",
             showConfirmButton: false,
             timer: 1500,
           });
         }
-        // console.log(res)
       })
       .catch((err) => console.log(err));
-
-    console.log("clicked on rider", data);
   };
-  const regionData = useLoaderData();
-  const duplicateRegion = regionData.map((r) => r.region);
-  // const senderRegion = watch("region"); // line ~20
 
-  const uniqueRegion = [...new Set(duplicateRegion)];
+  const regionData = useLoaderData();
+  const uniqueRegion = [...new Set(regionData.map((r) => r.region))];
   const senderRegion = watch("region");
 
-  const districtByRegion = (region) => {
-    const regionDistrict = regionData.filter((r) => r.region === region);
-    const districts = regionDistrict.map((rd) => rd.district);
-    return districts;
-  };
+  const districtByRegion = (region) =>
+    regionData
+      .filter((r) => r.region === region)
+      .map((rd) => rd.district);
+
   return (
-    <div className="w-11/12 mx-auto md:py-7">
-      <h1 className="text-3xl font-bold">Be A Rider</h1>
-      <p>
-        Enjoy fast, reliable parcel delivery with real-time tracking and zero
-        hassle. From personal <br /> packages to business shipments — we deliver
-        on time, every time.
+    <div className="max-w-5xl mx-auto my-10 p-6 bg-white shadow-lg rounded-xl">
+      <h1 className="text-4xl font-bold text-center text-primary mb-2">
+        Be A Rider
+      </h1>
+      <p className="text-center text-gray-600 mb-8">
+        Join our team and enjoy fast, reliable parcel delivery with real-time 
+  tracking and hassle-free operations. From personal packages to business 
+  shipments, we ensure timely delivery with professionalism and care.
       </p>
-      <form onSubmit={handleSubmit(handleRiderApplication)}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Sender info */}
 
-          <div>
-            <h1 className="text-3xl font-bold">Rider Details</h1>
+      <form onSubmit={handleSubmit(handleRiderApplication)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Rider Details Card */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-inner space-y-4">
+            <h2 className="text-2xl font-semibold border-b pb-2 mb-2">
+              Rider Details
+            </h2>
 
-            <fieldset className="fieldset">
-              <label className="label font-bold text-xl">Rider Name</label>
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">Rider Name</label>
               <input
                 type="text"
                 {...register("name")}
-                // defaultValue={}
-                className="w-full input"
                 defaultValue={user?.displayName}
+                className="input input-bordered w-full rounded-md"
                 placeholder="Rider Name"
               />
             </fieldset>
 
-            {/* Email */}
-            <fieldset className="fieldset">
-              <label className="label font-bold text-xl">Email</label>
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">Email</label>
               <input
                 type="text"
                 {...register("email")}
                 defaultValue={user?.email}
-                className="w-full input"
+                className="input input-bordered w-full rounded-md"
                 placeholder="Email"
               />
             </fieldset>
 
-            {/*Region  */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Region</legend>
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">Region</label>
               <select
                 {...register("region")}
-                defaultValue="Pick a Region"
-                className="select"
+                className="select select-bordered w-full rounded-md"
               >
-                <option disabled={true}>Pick a Region</option>
-
-                {uniqueRegion.map((region, index) => (
-                  <option value={region} key={index}>
+                <option disabled>Pick a Region</option>
+                {uniqueRegion.map((region, i) => (
+                  <option key={i} value={region}>
                     {region}
                   </option>
                 ))}
               </select>
             </fieldset>
-            {/* Selece District */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">District</legend>
+
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">District</label>
               <select
                 {...register("district")}
-                defaultValue="Pick a District"
-                className="select"
+                className="select select-bordered w-full rounded-md"
               >
-                <option disabled={true}>Pick a District</option>
-
-                {districtByRegion(senderRegion).map((region, index) => (
-                  <option key={index}>{region} </option>
+                <option disabled>Pick a District</option>
+                {districtByRegion(senderRegion).map((district, i) => (
+                  <option key={i}>{district}</option>
                 ))}
               </select>
             </fieldset>
 
-            {/* Address */}
-
-            <fieldset className="fieldset">
-              <label className="label font-bold text-xl"> Address</label>
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">Address</label>
               <input
                 type="text"
                 {...register("address")}
-                className="w-full input"
+                className="input input-bordered w-full rounded-md"
                 placeholder="Address"
               />
             </fieldset>
           </div>
-          {/* More Details */}
-          <div>
-            <h1 className="text-3xl font-bold">More Details</h1>
 
-            <fieldset className="fieldset">
-              <label className="label font-bold text-xl"> Age</label>
+          {/* More Details Card */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-inner space-y-4">
+            <h2 className="text-2xl font-semibold border-b pb-2 mb-2">
+              More Details
+            </h2>
+
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">Age</label>
               <input
                 type="number"
                 {...register("age")}
-                className="w-full input"
-                placeholder="Your Agee"
+                className="input input-bordered w-full rounded-md"
+                placeholder="Your Age"
               />
             </fieldset>
-            {/* Bike */}
-            <fieldset className="fieldset">
-              <label className="label font-bold text-xl">Bike</label>
+
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">Bike</label>
               <input
                 type="text"
                 {...register("bike")}
-                className="w-full input"
+                className="input input-bordered w-full rounded-md"
                 placeholder="Bike"
               />
             </fieldset>
-            {/* Nid */}
-            <fieldset className="fieldset">
-              <label className="label font-bold text-xl">NID</label>
+
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">NID</label>
               <input
                 type="text"
                 {...register("nid")}
-                className="w-full input"
+                className="input input-bordered w-full rounded-md"
                 placeholder="NID"
               />
             </fieldset>
-            {/* Li */}
-            <fieldset className="fieldset">
-              <label className="label font-bold text-xl">License</label>
+
+            <fieldset className="space-y-1">
+              <label className="label font-semibold text-lg">License</label>
               <input
                 type="text"
                 {...register("license")}
-                className="w-full input"
+                className="input input-bordered w-full rounded-md"
                 placeholder="License"
               />
             </fieldset>
@@ -176,10 +165,10 @@ const Rider = () => {
         </div>
 
         <button
-          className="bg-primary text-black btn font-semibold"
           type="submit"
+          className="btn btn-primary w-full text-white font-semibold text-lg mt-4"
         >
-          Submit
+          Submit Application
         </button>
       </form>
     </div>
