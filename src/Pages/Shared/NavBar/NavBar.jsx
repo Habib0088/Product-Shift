@@ -3,13 +3,30 @@ import Logo from "../../../Component/Logo/Logo";
 import useAuth from "../../../hook/useAuth";
 import useRole from "../../../hook/useRole";
 import ThemeToggle from "../../../Component/ThemeToogle/Themetoogle";
-
+  import { useState, useEffect } from "react";
 const NavBar = () => {
   const { user, logOut } = useAuth();
   // const{role}=useRole()
   // console.log(role);
 
   // console.log(user);
+
+
+const [isSticky, setIsSticky] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    if (scrollTop > 100) { // change 100 to whatever offset you want
+      setIsSticky(true);
+    } else {
+      setIsSticky(false);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   const handleLogOut = () => {
     logOut()
@@ -48,8 +65,8 @@ const NavBar = () => {
     </>
   );
   return (
-    <div className="bg-gray-200 ">
-      <div className=" navbar w-11/12 mx-auto z-50 mb-7">
+    <div className={`bg-gray-200 transition-all duration-300 ${isSticky ? "fixed top-0 left-0 w-full shadow-lg z-50" : ""}`}>
+      <div className=" navbar w-11/12 mx-auto z-50 ">
         <div className="navbar-start ">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

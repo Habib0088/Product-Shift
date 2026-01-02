@@ -70,7 +70,7 @@ const Coverage = () => {
           className="h-[600px]"
           center={position}
           zoom={7}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
           ref={mapRef}
         >
           <TileLayer

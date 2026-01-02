@@ -11,7 +11,7 @@ const Banner = () => {
       autoPlay={true}
       infiniteLoop={true}
       transitionTime={500}
-      className=" mx-auto md:py-4 lg:py-4"
+      className=" mx-auto  md:py-4 "
     >
       <div>
         <img src={banner1} />
