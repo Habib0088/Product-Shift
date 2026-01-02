@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const AssignRiders = () => {
   const [selectedParcel, setSelectedParcel] = useState(null);
@@ -10,7 +11,7 @@ const AssignRiders = () => {
   
   const refModal = useRef();
   const axiosSecure = useAxiosSecure();
-  const {refetch:refetchParcels, data: parcels = [] } = useQuery({
+  const {isLoading,refetch:refetchParcels, data: parcels = [] } = useQuery({
     queryKey: ["parcels", "pending-pickup"],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -65,6 +66,9 @@ const AssignRiders = () => {
         console.log(res.data);
       });
   };
+  if(isLoading){
+    return <LoadingSpinner></LoadingSpinner>
+  }
   return (
     <div>
       <h1>Assign Riders : {parcels.length}</h1>

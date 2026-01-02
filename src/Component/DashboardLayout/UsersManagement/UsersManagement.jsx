@@ -3,10 +3,12 @@ import React from "react";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 import { BsShieldSlashFill } from "react-icons/bs";
 import { FaUserShield } from "react-icons/fa";
+import Swal from "sweetalert2";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const UsersManagement = () => {
   const axiosSecure = useAxiosSecure();
-  const { refetch, data: users = [] } = useQuery({
+  const { isLoading,refetch, data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users");
@@ -14,26 +16,45 @@ const UsersManagement = () => {
     },
   });
 
-  const handleAddAdmin = (user) => {
-    const userInfo = { role: "admin" };
-    axiosSecure
-      .patch(`/user/${user._id}`, userInfo)
-      .then((res) => {
-        if (res.data.modifiedCount) refetch();
-      })
-      .catch((err) => console.log(err));
+  const handleRoleChange = (user, newRole) => {
+    if (user.role === newRole) return; // do nothing if same role
+    Swal.fire({
+      title: `Change role of ${user.displayName} to ${newRole}?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .patch(`/user/${user._id}`, { role: newRole })
+          .then((res) => {
+            if (res.data.modifiedCount) {
+              refetch();
+              Swal.fire({
+                icon: "success",
+                title: "Role Updated",
+                text: `${user.displayName} is now ${newRole}`,
+                timer: 1500,
+                showConfirmButton: false,
+                toast: true,
+                position: "top-end",
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    });
   };
 
-  const handleAddUser = (user) => {
-    const userInfo = { role: "user" };
-    axiosSecure
-      .patch(`/user/${user._id}`, userInfo)
-      .then((res) => {
-        if (res.data.modifiedCount) refetch();
-      })
-      .catch((err) => console.log(err));
+  const roleColors = {
+    admin: "bg-green-100 text-green-700",
+    rider: "bg-blue-100 text-blue-700",
+    user: "bg-gray-100 text-gray-700",
   };
-
+if(isLoading){
+  return <LoadingSpinner></LoadingSpinner>
+}
   return (
     <div className="w-11/12 mx-auto my-10">
       {/* Header */}
@@ -42,7 +63,7 @@ const UsersManagement = () => {
           Users Management ({users.length})
         </h1>
         <p className="text-gray-500 mt-2">
-          View all users and manage roles. Promote or demote users easily.
+          View all users and manage roles. Change roles using the dropdown.
         </p>
       </div>
 
@@ -55,8 +76,8 @@ const UsersManagement = () => {
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Role</th>
-              <th className="px-4 py-3">Admin Action</th>
-              <th className="px-4 py-3">Other Action</th>
+              <th className="px-4 py-3">Change Role</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -85,33 +106,37 @@ const UsersManagement = () => {
                   </div>
                 </td>
                 <td className="px-4 py-3 text-gray-600">{user?.email}</td>
-                <td className="px-4 py-3 text-gray-700 font-medium">
-                  {user?.role}
-                </td>
-                <td className="px-4 mt-4 py-3 flex gap-2">
-                  {user.role === "admin" ? (
-                    <button
-                      onClick={() => handleAddUser(user)}
-                      className="flex items-center justify-center px-3  bg-red-100 text-red-600 rounded hover:bg-red-200 transition"
-                      title="Demote to User"
-                    >
-                      <BsShieldSlashFill />
-                    </button>
-                  ) : (
-                    <button
-                      className="flex items-center justify-center px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
-                      onClick={() => handleAddAdmin(user)}
-                      title="Promote to Admin"
-                    >
-                      <FaUserShield />
-                    </button>
-                  )}
-                </td>
+                <td className="px-4 py-3 text-gray-700 font-medium">{user?.role}</td>
+
+                {/* Role Dropdown */}
                 <td className="px-4 py-3">
-                  <button className="btn btn-sm bg-gray-200 hover:bg-gray-300 text-gray-800">
-                    Details
-                  </button>
+                  <select
+                    value={user.role}
+                    onChange={(e) => handleRoleChange(user, e.target.value)}
+                    className={`px-3 py-1 rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 ${roleColors[user.role]}`}
+                  >
+                    <option
+                      value="admin"
+                      className={user.role === "admin" ? roleColors.admin : ""}
+                    >
+                      Admin
+                    </option>
+                    <option
+                      value="rider"
+                      className={user.role === "rider" ? roleColors.rider : ""}
+                    >
+                      Rider
+                    </option>
+                    <option
+                      value="user"
+                      className={user.role === "user" ? roleColors.user : ""}
+                    >
+                      User
+                    </option>
+                  </select>
                 </td>
+
+             
               </tr>
             ))}
           </tbody>
