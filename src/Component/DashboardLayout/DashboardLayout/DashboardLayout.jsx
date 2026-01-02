@@ -5,11 +5,13 @@ import { FaRegCreditCard, FaTasks, FaUser } from "react-icons/fa";
 import { RiEBike2Fill, RiEBikeFill, RiTaskFill } from "react-icons/ri";
 import { FaUsersGear } from "react-icons/fa6";
 import useRole from "../../../hook/useRole";
+import useAuth from "../../../hook/useAuth";
 
 
 
 const DashboardLayout = () => {
   const {role}=useRole()
+  const {user}=useAuth()
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -52,7 +54,29 @@ const DashboardLayout = () => {
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
+   
+
+
+<div className="mb-6 flex flex-col items-center mt-3">
+  <div
+    className="rounded-full bg-gray-300 mb-2 shadow-inner overflow-hidden 
+               w-20 h-20 is-drawer-close:w-10 is-drawer-close:h-10 transition-all duration-300"
+  >
+    <img
+      className="rounded-full w-full h-full object-cover"
+      src={user?.photoURL}
+      alt=""
+    />
+  </div>
+
+  {/* Name & Role: only visible when sidebar is open */}
+  <h3 className="font-semibold text-lg is-drawer-close:hidden">{user?.displayName}</h3>
+  <p className="text-sm text-gray-500 is-drawer-close:hidden">{role}</p>
+</div>
+
+            {/* ======================profile */}
             {/* List item */}
+            
             <li>
               <NavLink to="/">
                 <button
@@ -68,7 +92,7 @@ const DashboardLayout = () => {
                     strokeWidth="2"
                     fill="none"
                     stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
+                    className="m-1.5 inline-block size-4"
                   >
                     <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -77,21 +101,7 @@ const DashboardLayout = () => {
                 </button>
               </NavLink>
             </li>
-    {/* Payment  */}
-     <li>
-              <NavLink to="/payment-history">
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Payment"
-                >
-                  {/* Payment icon */}
-                  <FaRegCreditCard />
-
-                  <span className="is-drawer-close:hidden">Payment</span>
-                </button>
-              </NavLink>
-            </li>
-
+ 
             {/* List item */}
 
             <li>
@@ -194,30 +204,7 @@ const DashboardLayout = () => {
 
 
            }
-            <li>
-              <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Settings"
-              >
-                {/* Settings icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
-                >
-                  <path d="M20 7h-9"></path>
-                  <path d="M14 17H5"></path>
-                  <circle cx="17" cy="17" r="3"></circle>
-                  <circle cx="7" cy="7" r="3"></circle>
-                </svg>
-                <span className="is-drawer-close:hidden">Settings</span>
-              </button>
-            </li>
+          
           </ul>
         </div>
       </div>

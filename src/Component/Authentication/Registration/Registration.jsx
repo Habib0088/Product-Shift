@@ -31,11 +31,7 @@ const Registration = () => {
       .catch((error) => console.log(error.message));
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const handleRegister = (data) => {
     const imageUrl = data.photo[0];
@@ -73,16 +69,20 @@ const Registration = () => {
     <div className="min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-4 py-10">
       <form
         onSubmit={handleSubmit(handleRegister)}
-        className="card w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 relative space-y-4"
+        className="card w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden"
       >
-        <h1 className="text-3xl font-bold text-center text-indigo-700 mb-2">
-          Register
-        </h1>
-        <p className="text-center text-gray-500 mb-4">
-          Create your ZapShift account
-        </p>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-6 text-white text-center">
+          <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
+            <span>🛡️</span> Register
+          </h1>
+          <p className="text-white/80 mt-1">
+            Create your ZapShift account
+          </p>
+        </div>
 
-        <fieldset className="space-y-3">
+        {/* Form */}
+        <div className="card-body space-y-3">
           {/* Name */}
           <div className="form-control text-start">
             <label className="label font-semibold text-gray-700">Name</label>
@@ -92,28 +92,18 @@ const Registration = () => {
               className="input input-bordered w-full"
               placeholder="Your Name"
             />
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">
-                You have not provided Name
-              </p>
-            )}
+            {errors.name && <p className="text-red-500 text-sm mt-1">You have not provided Name</p>}
           </div>
 
           {/* Photo */}
           <div className="form-control text-start">
-            <label className="label font-semibold text-gray-700">
-              Upload Photo
-            </label>
+            <label className="label font-semibold text-gray-700">Upload Photo</label>
             <input
               {...register("photo", { required: true })}
               type="file"
               className="file-input file-input-bordered w-full"
             />
-            {errors.photo && (
-              <p className="text-red-500 text-sm mt-1">
-                You have not provided Photo
-              </p>
-            )}
+            {errors.photo && <p className="text-red-500 text-sm mt-1">You have not provided Photo</p>}
           </div>
 
           {/* Email */}
@@ -125,11 +115,7 @@ const Registration = () => {
               className="input input-bordered w-full"
               placeholder="Email"
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                You have not provided Email
-              </p>
-            )}
+            {errors.email && <p className="text-red-500 text-sm mt-1">You have not provided Email</p>}
           </div>
 
           {/* Password */}
@@ -143,28 +129,22 @@ const Registration = () => {
             />
             <span
               onClick={() => setShow(!show)}
-              className="absolute top-11 right-3 cursor-pointer text-gray-500"
+              className="absolute  top-9 z-50 right-3 cursor-pointer text-gray-500"
             >
               {show ? <FaEyeSlash /> : <FaRegEye />}
             </span>
             {errors.password?.type === "required" && (
-              <p className="text-red-500 text-sm mt-1">
-                You have not provided Password
-              </p>
+              <p className="text-red-500 text-sm mt-1">You have not provided Password</p>
             )}
           </div>
 
           {/* Register Button */}
-          <button className="btn btn-primary w-full mt-2 text-white">
-            Register Now
-          </button>
+          <button className="btn btn-primary w-full mt-2 text-white">Register Now</button>
 
           {/* Login link */}
           <p className="text-center text-gray-500 text-sm mt-2">
             Already have an account?{" "}
-            <Link to="/login" className="text-indigo-600 font-semibold underline">
-              Login
-            </Link>
+            <Link to="/login" className="text-indigo-600 font-semibold underline">Login</Link>
           </p>
 
           {/* Or Divider */}
@@ -176,36 +156,18 @@ const Registration = () => {
             onClick={handleloginWithGoogle}
             className="btn w-full bg-white text-black border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2"
           >
-            <svg
-              aria-label="Google logo"
-              width="18"
-              height="18"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-            >
+            <svg aria-label="Google logo" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <g>
                 <path d="m0 0H512V512H0" fill="#fff"></path>
-                <path
-                  fill="#34a853"
-                  d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                ></path>
-                <path
-                  fill="#4285f4"
-                  d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                ></path>
-                <path
-                  fill="#fbbc02"
-                  d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                ></path>
-                <path
-                  fill="#ea4335"
-                  d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                ></path>
+                <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
+                <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
+                <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
+                <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
               </g>
             </svg>
             Register with Google
           </button>
-        </fieldset>
+        </div>
       </form>
     </div>
   );
