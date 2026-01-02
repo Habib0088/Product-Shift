@@ -1,6 +1,6 @@
 import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
-import { NavLink, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import { FaRegCreditCard, FaTasks, FaUser } from "react-icons/fa";
 import { RiEBike2Fill, RiEBikeFill, RiTaskFill } from "react-icons/ri";
 import { FaUsersGear } from "react-icons/fa6";
@@ -39,7 +39,7 @@ const DashboardLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4">Navbar Title</div>
+          <div className="px-4 font-bold">Welcome to Dashboard</div>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
@@ -57,6 +57,7 @@ const DashboardLayout = () => {
    
 
 
+<Link to={'/profile'}>
 <div className="mb-6 flex flex-col items-center mt-3">
   <div
     className="rounded-full bg-gray-300 mb-2 shadow-inner overflow-hidden 
@@ -73,6 +74,7 @@ const DashboardLayout = () => {
   <h3 className="font-semibold text-lg is-drawer-close:hidden">{user?.displayName}</h3>
   <p className="text-sm text-gray-500 is-drawer-close:hidden">{role}</p>
 </div>
+</Link>
 
             {/* ======================profile */}
             {/* List item */}
@@ -97,7 +99,7 @@ const DashboardLayout = () => {
                     <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   </svg>
-                  <span className="is-drawer-close:hidden">Homepage</span>
+                  <span className="is-drawer-close:hidden font-bold">Homepage</span>
                 </button>
               </NavLink>
             </li>
@@ -111,7 +113,7 @@ const DashboardLayout = () => {
                   data-tip="My Parcel"
                 >
                   <CiDeliveryTruck className="m-1.5 inline-block size-4" />
-                  <span className="is-drawer-close:hidden">My Parcel</span>
+                  <span className="is-drawer-close:hidden  font-bold">My Parcel</span>
                 </button>
               </NavLink>
             </li>
@@ -130,7 +132,7 @@ const DashboardLayout = () => {
          
 
                   {/* <CiDeliveryTruck  /> */}
-                  <span className="is-drawer-close:hidden">Assign Deliveries</span>
+                  <span className="is-drawer-close:hidden  font-bold">Assign Deliveries</span>
                 </button>
               </NavLink>
               </li>
@@ -146,7 +148,7 @@ const DashboardLayout = () => {
          
 
                   {/* <CiDeliveryTruck  /> */}
-                  <span className="is-drawer-close:hidden">Completed Deliveries</span>
+                  <span className="is-drawer-close:hidden  font-bold">Completed Deliveries</span>
                 </button>
               </NavLink>
               </li>
@@ -164,7 +166,7 @@ const DashboardLayout = () => {
                   <RiEBike2Fill className="m-1.5 inline-block size-4" />
 
                   {/* <CiDeliveryTruck  /> */}
-                  <span className="is-drawer-close:hidden">Approve Riders</span>
+                  <span className="is-drawer-close:hidden  font-bold">Approve Riders</span>
                 </button>
               </NavLink>
               </li>
@@ -179,7 +181,7 @@ const DashboardLayout = () => {
 
 
                   {/* <CiDeliveryTruck  /> */}
-                  <span className="is-drawer-close:hidden">Users Management</span>
+                  <span className="is-drawer-close:hidden  font-bold">Users Management</span>
                 </button>
               </NavLink>
             </li>
@@ -195,7 +197,7 @@ const DashboardLayout = () => {
 
 
                   {/* <CiDeliveryTruck  /> */}
-                  <span className="is-drawer-close:hidden">Assign Riders</span>
+                  <span className="is-drawer-close:hidden  font-bold">Assign Riders</span>
                 </button>
               </NavLink>
             </li>
