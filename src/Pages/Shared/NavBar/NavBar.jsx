@@ -1,12 +1,11 @@
 import { Link, NavLink, useNavigate } from "react-router";
 import Logo from "../../../Component/Logo/Logo";
 import useAuth from "../../../hook/useAuth";
-import useRole from "../../../hook/useRole";
-import ThemeToggle from "../../../Component/ThemeToogle/Themetoogle";
+
 import { useState, useEffect } from "react";
 const NavBar = () => {
   const { user, logOut } = useAuth();
-  const navigator=useNavigate()
+  const navigator = useNavigate();
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
@@ -26,10 +25,9 @@ const NavBar = () => {
 
   const handleLogOut = () => {
     logOut()
-    
       .then()
       .catch((error) => console.log(error));
-navigator("/")
+    navigator("/");
   };
   const links = (
     <>
@@ -46,7 +44,6 @@ navigator("/")
       <li className="font-semibold ">
         <NavLink to="/rider">Be A Rider</NavLink>
       </li>
-     
 
       {user && (
         <>
@@ -99,7 +96,7 @@ navigator("/")
         </div>
         <div className="navbar-end">
           {user ? (
-            <button >
+            <button>
               {" "}
               {/* <Link>Log Out</Link> */}
               <div className="relative group">
@@ -111,7 +108,10 @@ navigator("/")
 
                 {/* Dropdown menu */}
                 <ul className="absolute left-0 mt-2 w-30 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300">
-                  <Link to={'/profile'} className="block px-2 font-bold shadow-sm py-2 hover:bg-gray-100 text-start">
+                  <Link
+                    to={"/profile"}
+                    className="block px-2 font-bold shadow-sm py-2 hover:bg-gray-100 text-start"
+                  >
                     {user.displayName}
                   </Link>
                   <li
@@ -120,25 +120,15 @@ navigator("/")
                   >
                     LogOut
                   </li>
-                  {/* <Link
-                    to={"/profile"}
-                    className="block px-1 font-bold py-1 hover:bg-gray-100 shadow-sm"
-                  >
-                    Profile
-                  </Link> */}
                 </ul>
               </div>
               {/* ==================== */}
             </button>
           ) : (
-            <Link className="btn" to="/login">
+            <Link className="btn btn-primary" to="/login">
               Login
             </Link>
           )}
-          {/* <button className="btn btn-primary text-black mx-4">
-            <Link to="/rider">Be A Rider</Link>
-          </button>
-         */}
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ body {
 /* (Optional) Example: custom button using your variables */
 .btn-primary-custom {
   background: var(--color-primary);
-  color: var(--color-bg);
+  color: var(--color-text);
 }
 .active{
   background-color: var(--color-secondary);
