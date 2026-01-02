@@ -5,6 +5,7 @@ import axios from "axios";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 import { useState } from "react";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Registration = () => {
   const [show, setShow] = useState(false);
@@ -12,6 +13,23 @@ const Registration = () => {
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
   const navigator = useNavigate();
+
+  const showToast = (message, icon = "success") => {
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon,
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      background: "#f0f0f0",
+      iconColor: icon === "success" ? "#16a34a" : "#dc2626",
+      customClass: {
+        title: "font-semibold text-gray-800",
+      },
+    });
+  };
 
   const handleloginWithGoogle = () => {
     loginWithGoogle()
@@ -24,11 +42,19 @@ const Registration = () => {
         };
         axiosSecure
           .post("/users", userProfileCreate)
-          .then(() => navigator(location.state || "/"))
-          .catch((err) => console.log(err));
-        navigator(location.state || "/");
+          .then(() => {
+            navigator(location.state || "/");
+            showToast("Registered with Google successfully!");
+          })
+          .catch((err) => {
+            console.log(err);
+            showToast("Google registration failed!", "error");
+          });
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        console.log(error.message);
+        showToast("Google registration failed!", "error");
+      });
   };
 
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -52,17 +78,32 @@ const Registration = () => {
           axiosSecure
             .post("http://localhost:3000/users", userProfileCreate)
             .then((res) => {
-              if (res.data.insertedId) navigator("/");
+              if (res.data.insertedId) {
+                showToast("Registered successfully!");
+                navigator("/");
+              }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+              console.log(err);
+              showToast("Registration failed!", "error");
+            });
 
           updateUserProfile({
             displayName: data.name,
             photoURL: res.data.data.url,
-          }).then(() => console.log("Profile updated")).catch(err => console.log(err));
+          })
+            .then(() => console.log("Profile updated"))
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => {
+          console.log(err);
+          showToast("Image upload failed!", "error");
         });
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        showToast("Registration failed!", "error");
+      });
   };
 
   return (
@@ -76,9 +117,7 @@ const Registration = () => {
           <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
             <span>🛡️</span> Register
           </h1>
-          <p className="text-white/80 mt-1">
-            Create your ZapShift account
-          </p>
+          <p className="text-white/80 mt-1">Create your ZapShift account</p>
         </div>
 
         {/* Form */}
@@ -92,7 +131,9 @@ const Registration = () => {
               className="input input-bordered w-full"
               placeholder="Your Name"
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">You have not provided Name</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">You have not provided Name</p>
+            )}
           </div>
 
           {/* Photo */}
@@ -103,7 +144,9 @@ const Registration = () => {
               type="file"
               className="file-input file-input-bordered w-full"
             />
-            {errors.photo && <p className="text-red-500 text-sm mt-1">You have not provided Photo</p>}
+            {errors.photo && (
+              <p className="text-red-500 text-sm mt-1">You have not provided Photo</p>
+            )}
           </div>
 
           {/* Email */}
@@ -115,7 +158,9 @@ const Registration = () => {
               className="input input-bordered w-full"
               placeholder="Email"
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">You have not provided Email</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">You have not provided Email</p>
+            )}
           </div>
 
           {/* Password */}
@@ -129,7 +174,7 @@ const Registration = () => {
             />
             <span
               onClick={() => setShow(!show)}
-              className="absolute  top-9 z-50 right-3 cursor-pointer text-gray-500"
+              className="absolute top-9 z-50 right-3 cursor-pointer text-gray-500"
             >
               {show ? <FaEyeSlash /> : <FaRegEye />}
             </span>
@@ -144,7 +189,12 @@ const Registration = () => {
           {/* Login link */}
           <p className="text-center text-gray-500 text-sm mt-2">
             Already have an account?{" "}
-            <Link to="/login" className="text-indigo-600 font-semibold underline">Login</Link>
+            <Link
+              to="/login"
+              className="text-indigo-600 font-semibold underline"
+            >
+              Login
+            </Link>
           </p>
 
           {/* Or Divider */}
@@ -156,13 +206,31 @@ const Registration = () => {
             onClick={handleloginWithGoogle}
             className="btn w-full bg-white text-black border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2"
           >
-            <svg aria-label="Google logo" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <svg
+              aria-label="Google logo"
+              width="18"
+              height="18"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+            >
               <g>
                 <path d="m0 0H512V512H0" fill="#fff"></path>
-                <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
-                <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
-                <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
-                <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
+                <path
+                  fill="#34a853"
+                  d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+                ></path>
+                <path
+                  fill="#4285f4"
+                  d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+                ></path>
+                <path
+                  fill="#fbbc02"
+                  d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+                ></path>
+                <path
+                  fill="#ea4335"
+                  d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+                ></path>
               </g>
             </svg>
             Register with Google

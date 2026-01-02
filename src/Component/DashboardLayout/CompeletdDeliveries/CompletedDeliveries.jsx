@@ -2,63 +2,101 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 import useAuth from "../../../hook/useAuth";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const CompletedDeliveries = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const { data: parcels = [] } = useQuery({
-    queryKey: ["delivered"],
+
+  const { data: parcels = [], isLoading } = useQuery({
+    queryKey: ["delivered", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcelsDelivered?email=${user.email}&deliveryStatus=delivered`
+        `/parcelsDelivered?email=${user?.email}&deliveryStatus=delivered`
       );
       return res.data;
     },
   });
-  console.log(parcels);
+
+  const formatDate = (date) =>
+    new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+  const formatMoney = (v) => Number(v || 0).toFixed(2);
+
   const calculatePayout = (parcel) => {
-    if (parcel.senderDistrict === parcel.receiverDistrict) {
-      const cost = parcel.cost * 0.8;
-      return cost;
-    }
-    else{
-        const cost=parcel.cost*0.6;
-        return cost
-    }
+    const rate =
+      parcel.senderDistrict === parcel.receiverDistrict ? 0.8 : 0.6;
+    return parcel.cost * rate;
   };
+
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>
+
   return (
     <div>
-      <h1 className="text-3xl">Completed Deliveries: {parcels.length}</h1>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          {/* head */}
-          <thead>
+      <h1 className="text-xl font-semibold mb-4">
+        Completed Deliveries:{" "}
+        <span className="text-primary font-bold">{parcels.length}</span>
+      </h1>
+
+      <div className="overflow-x-auto rounded-xl shadow-sm ">
+        <table className="table">
+          <thead className="bg-base-200">
             <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Created At</th>
+              <th>#</th>
+              <th>Customer</th>
+              <th>Delivered On</th>
               <th>Pickup District</th>
               <th>Cost</th>
               <th>Payout</th>
-              <th>Action</th>
+              <th></th>
             </tr>
           </thead>
+
           <tbody>
-            {parcels.map((parcel, i) => (
+            {parcels.length === 0 && (
               <tr>
-                <th>{i + 1}</th>
-                <td>{parcel.name}</td>
-                <td>{parcel.createdAt}</td>
-                <td>{parcel.senderDistrict}</td>
-                <td>{parcel.cost}</td>
-                <td>{ calculatePayout(parcel)}</td>
-                <td>
-                  <button className="btn btn-primary text-black">
-                    Cashout
-                  </button>
+                <td colSpan="7" className="text-center py-6 font-bold">
+                  No completed deliveries yet.
                 </td>
               </tr>
-            ))}
+            )}
+
+            {parcels.map((parcel, i) => {
+              const payout = calculatePayout(parcel);
+
+              return (
+                <tr key={parcel._id}>
+                  <td>{i + 1}</td>
+
+                  <td className="font-medium">{parcel.name}</td>
+
+                  <td>{formatDate(parcel.createdAt)}</td>
+
+                  <td>{parcel.senderDistrict}</td>
+
+                  <td>৳ {formatMoney(parcel.cost)}</td>
+
+                  <td>
+                    <span className="badge badge-success badge-outline">
+                      ৳ {formatMoney(payout)}
+                    </span>
+                  </td>
+
+                  <td>
+                    <button
+                      className="btn btn-sm btn-primary text-black"
+                      disabled={parcel?.cashoutRequested}
+                    >
+                      {parcel?.cashoutRequested ? "Requested" : "Cashout"}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

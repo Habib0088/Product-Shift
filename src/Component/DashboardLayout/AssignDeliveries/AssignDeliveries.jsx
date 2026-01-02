@@ -3,6 +3,7 @@ import React from "react";
 import useAuth from "../../../hook/useAuth";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const AssignDeliveries = () => {
   const { user } = useAuth();
@@ -51,8 +52,7 @@ const AssignDeliveries = () => {
     }
   };
 
-  if (isLoading) return <p className="text-center mt-6">Loading…</p>;
-
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div>
       <h1 className="text-xl font-semibold mb-4">
