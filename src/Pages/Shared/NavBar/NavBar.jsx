@@ -3,7 +3,7 @@ import Logo from "../../../Component/Logo/Logo";
 import useAuth from "../../../hook/useAuth";
 import useRole from "../../../hook/useRole";
 import ThemeToggle from "../../../Component/ThemeToogle/Themetoogle";
-  import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 const NavBar = () => {
   const { user, logOut } = useAuth();
   // const{role}=useRole()
@@ -11,22 +11,22 @@ const NavBar = () => {
 
   // console.log(user);
 
+  const [isSticky, setIsSticky] = useState(false);
 
-const [isSticky, setIsSticky] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 100) {
+        // change 100 to whatever offset you want
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
 
-useEffect(() => {
-  const handleScroll = () => {
-    const scrollTop = window.scrollY;
-    if (scrollTop > 100) { // change 100 to whatever offset you want
-      setIsSticky(true);
-    } else {
-      setIsSticky(false);
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleLogOut = () => {
     logOut()
@@ -65,7 +65,11 @@ useEffect(() => {
     </>
   );
   return (
-    <div className={`bg-gray-200 transition-all duration-300 ${isSticky ? "fixed top-0 left-0 w-full shadow-lg z-50" : ""}`}>
+    <div
+      className={`bg-gray-200 transition-all duration-300 ${
+        isSticky ? "fixed top-0 left-0 w-full shadow-lg z-50" : ""
+      }`}
+    >
       <div className=" navbar w-11/12 mx-auto z-50 ">
         <div className="navbar-start ">
           <div className="dropdown">
@@ -98,21 +102,47 @@ useEffect(() => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{links}</ul>
+          <ul className="menu menu-horizontal px-8">{links}</ul>
         </div>
         <div className="navbar-end">
           {user ? (
             <button onClick={handleLogOut}>
               {" "}
-              <Link>Log Out</Link>
+              {/* <Link>Log Out</Link> */}
+              <li className="relative group">
+               <img className="w-[60px] h-[60px] rounded-full" src={user.photoURL} alt="" />
+
+                {/* Dropdown menu */}
+                <ul className="absolute left-0 mt-2 w-30 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300">
+                  <li>
+                    <a
+                      href="/tracking"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Live Tracking
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/support"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      24/7 Support
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {/* ==================== */}
             </button>
           ) : (
-            <Link to="/login">Login</Link>
+            <Link className="btn" to="/login">
+              Login
+            </Link>
           )}
-          <button className="btn btn-primary text-black mx-4">
+          {/* <button className="btn btn-primary text-black mx-4">
             <Link to="/rider">Be A Rider</Link>
           </button>
-          <ThemeToggle></ThemeToggle>
+         */}
         </div>
       </div>
     </div>
