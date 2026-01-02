@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import Logo from "../../../Component/Logo/Logo";
 import useAuth from "../../../hook/useAuth";
 import useRole from "../../../hook/useRole";
@@ -6,11 +6,7 @@ import ThemeToggle from "../../../Component/ThemeToogle/Themetoogle";
 import { useState, useEffect } from "react";
 const NavBar = () => {
   const { user, logOut } = useAuth();
-  // const{role}=useRole()
-  // console.log(role);
-
-  // console.log(user);
-
+  const navigator=useNavigate()
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
@@ -30,8 +26,10 @@ const NavBar = () => {
 
   const handleLogOut = () => {
     logOut()
+    
       .then()
       .catch((error) => console.log(error));
+navigator("/")
   };
   const links = (
     <>
@@ -48,9 +46,7 @@ const NavBar = () => {
       <li className="font-semibold ">
         <NavLink to="/rider">Be A Rider</NavLink>
       </li>
-      <li className="font-semibold ">
-        <NavLink to="/registration">Registration</NavLink>
-      </li>
+     
 
       {user && (
         <>
@@ -106,7 +102,7 @@ const NavBar = () => {
             <button >
               {" "}
               {/* <Link>Log Out</Link> */}
-              <li className="relative group">
+              <div className="relative group">
                 <img
                   className="w-[60px] h-[60px] rounded-full"
                   src={user.photoURL}
@@ -131,7 +127,7 @@ const NavBar = () => {
                     Profile
                   </Link> */}
                 </ul>
-              </li>
+              </div>
               {/* ==================== */}
             </button>
           ) : (
