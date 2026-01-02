@@ -1,17 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
-
 import Swal from "sweetalert2";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const AssignRiders = () => {
   const [selectedParcel, setSelectedParcel] = useState(null);
-  console.log(selectedParcel);
-  
   const refModal = useRef();
   const axiosSecure = useAxiosSecure();
-  const {isLoading,refetch:refetchParcels, data: parcels = [] } = useQuery({
+
+  const {
+    isLoading,
+    refetch: refetchParcels,
+    data: parcels = [],
+  } = useQuery({
     queryKey: ["parcels", "pending-pickup"],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -20,28 +22,36 @@ const AssignRiders = () => {
       return res.data;
     },
   });
-  const { refetch:refetchRiders,data: riders = [] } = useQuery({
-    queryKey: ["parcels", selectedParcel?.senderDistrict, "available"],
-    enabled: !!selectedParcel,
-    queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`
-      );
 
-      return res.data;
-    },
-  });
-  //  console.log(rider)
-  // console.log(rider);
+  // const { refetch: refetchRiders, data: riders = [] } = useQuery({
+  //   queryKey: ["parcels", selectedParcel?.senderDistrict, "available"],
+  //   enabled: !!selectedParcel,
+  //   queryFn: async () => {
+  //     const res = await axiosSecure.get(
+  //       `/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`
+  //     );
+  //     return res.data;
+  //   },
+  // });
+  const { refetch: refetchRiders, data: riders = [] } = useQuery({
+  queryKey: ["availableRiders", selectedParcel?.senderDistrict],
+  enabled: !!selectedParcel,
+  queryFn: async () => {
+    if (!selectedParcel) return [];
+    const res = await axiosSecure.get(
+      `/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`
+    );
+    return res.data;
+  },
+});
+
+
   const handleAssignModal = (parcel) => {
-    // console.log(parcel);
-
     setSelectedParcel(parcel);
     refModal.current.showModal();
   };
-  const handleAssignRider = (rider) => {
-    // console.log(rider);
 
+  const handleAssignRider = (rider) => {
     const riderAssignInfo = {
       riderId: rider._id,
       riderName: rider.name,
@@ -53,8 +63,8 @@ const AssignRiders = () => {
       .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
       .then((res) => {
         if (res.data.modifiedCount) {
-          refetchParcels()
-          refetchRiders()
+          refetchParcels();
+          refetchRiders();
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -63,40 +73,54 @@ const AssignRiders = () => {
             timer: 1500,
           });
         }
-        console.log(res.data);
       });
   };
-  if(isLoading){
-    return <LoadingSpinner></LoadingSpinner>
+
+  if (isLoading) {
+    return <LoadingSpinner />;
   }
+
   return (
-    <div>
-      <h1>Assign Riders : {parcels.length}</h1>
-      <div className="overflow-x-auto">
-        <table className="table">
-          {/* head */}
-          <thead>
+    <div className="w-11/12 mx-auto my-10">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+          Assign Riders ({parcels.length})
+        </h1>
+        <p className="text-gray-500 mt-2">
+          Assign available riders to pending parcels quickly and efficiently.
+        </p>
+      </div>
+
+      {/* Parcels Table */}
+      <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
+        <table className="min-w-full table-auto text-left">
+          <thead className="bg-gray-100 text-gray-700 uppercase text-sm">
             <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Cost</th>
-              <th>Created At</th>
-              <th>Pickup District</th>
-              <th>Action</th>
+              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">Parcel Name</th>
+              <th className="px-4 py-3">Cost</th>
+              <th className="px-4 py-3">Created At</th>
+              <th className="px-4 py-3">Pickup District</th>
+              <th className="px-4 py-3">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-gray-200">
             {parcels.map((parcel, index) => (
-              <tr>
-                <th>{index + 1}</th>
-                <td>{parcel.name}</td>
-                <td>{parcel.cost}</td>
-                <td>{parcel.createdAt}</td>
-                <td>{parcel.senderDistrict}</td>
-                <td>
+              <tr key={parcel._id} className="hover:bg-gray-50 transition-all">
+                <td className="px-4 py-3">{index + 1}</td>
+                <td className="px-4 py-3 font-medium text-gray-800">
+                  {parcel.name}
+                </td>
+                <td className="px-4 py-3 text-gray-600">{parcel.cost}</td>
+                <td className="px-4 py-3 text-gray-600">{parcel.createdAt}</td>
+                <td className="px-4 py-3 text-gray-700 font-medium">
+                  {parcel.senderDistrict}
+                </td>
+                <td className="px-4 py-3">
                   <button
                     onClick={() => handleAssignModal(parcel)}
-                    className="btn bg-primary text-black"
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                   >
                     Assign Rider
                   </button>
@@ -106,52 +130,56 @@ const AssignRiders = () => {
           </tbody>
         </table>
       </div>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      {/* <button
-        className="btn"
-        onClick={() => document.getElementById("my_modal_5").showModal()}
-      >
-        open modal
-      </button> */}
-      <dialog ref={refModal} className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Riders {riders.length}</h3>
-          {/* Table start */}
 
-          <div className="overflow-x-auto">
-            <table className="table table-zebra">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {riders.map((rider, index) => (
+      {/* Modal for Assigning Riders */}
+      <dialog ref={refModal} className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box p-6">
+          <h3 className="font-bold text-xl mb-4">
+            Available Riders ({riders.length})
+          </h3>
+
+          {riders.length === 0 ? (
+            <p className="text-gray-500">
+              No available riders in this district.
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full table-auto text-left table-zebra">
+                <thead className="bg-gray-100 text-gray-700 uppercase text-sm">
                   <tr>
-                    <th>{index + 1}</th>
-                    <td>{rider.name}</td>
-                    <td>{rider.email}</td>
-                    <td>
-                      <button
-                        onClick={() => handleAssignRider(rider)}
-                        className="btn bg-primary text-black"
-                      >
-                        Assign Rider
-                      </button>
-                    </td>
+                    <th className="px-4 py-2">#</th>
+                    <th className="px-4 py-2">Name</th>
+                    <th className="px-4 py-2">Email</th>
+                    <th className="px-4 py-2">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {/* Table End */}
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {riders.map((rider, index) => (
+                    <tr
+                      key={rider._id}
+                      className="hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-4 py-2">{index + 1}</td>
+                      <td className="px-4 py-2 font-medium text-gray-800">
+                        {rider.name}
+                      </td>
+                      <td className="px-4 py-2 text-gray-600">{rider.email}</td>
+                      <td className="px-4 py-2">
+                        <button
+                          onClick={() => handleAssignRider(rider)}
+                          className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                        >
+                          Assign
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
           <div className="modal-action">
             <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>

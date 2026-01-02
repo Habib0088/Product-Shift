@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import AuthContext from "../../Context/AuthContext/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../hook/useAxiosSecure/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const LogIn = () => {
   const location = useLocation();
@@ -10,6 +11,43 @@ const LogIn = () => {
   const navigator = useNavigate();
   const { loginUeser, loginWithGoogle } = use(AuthContext);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // -------- EMAIL + PASSWORD LOGIN ----------
+  const handleLogin = (data) => {
+    loginUeser(data.email, data.password)
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful 🎉",
+          text: "Welcome back!",
+          timer: 1700,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+
+        navigator(location.state || "/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text:
+            error?.message === "Firebase: Error (auth/invalid-credential)."
+              ? "Email & Password not matched"
+              : error?.message || "Something went wrong!",
+          toast: true,
+          position: "top-end",
+        });
+      });
+  };
+
+  // ------------- GOOGLE LOGIN --------------
   const handleGoogle = () => {
     loginWithGoogle()
       .then((result) => {
@@ -22,22 +60,27 @@ const LogIn = () => {
         };
 
         axiosSecure.post("/users", userProfileCreate).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Logged in with Google 🎯",
+            timer: 1700,
+            showConfirmButton: false,
+            toast: true,
+            position: "top-end",
+          });
+
           navigator(location.state || "/");
         });
       })
-      .catch((error) => console.log(error.message));
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const handleLogin = (data) => {
-    loginUeser(data.email, data.password)
-      .then(() => navigator(location.state || "/"))
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Google Login Failed",
+          text: error?.message || "Something went wrong!",
+          toast: true,
+          position: "top-end",
+        });
+      });
   };
 
   return (
@@ -47,43 +90,42 @@ const LogIn = () => {
         <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-6 text-white">
           <h1 className="text-3xl font-bold">Welcome Back 👋</h1>
           <p className="opacity-90 text-sm mt-1">
-            Login to continue using{" "}
-            <span className="font-semibold">Ride Shift</span>
+            Login to continue using <span className="font-semibold">Ride Shift</span>
           </p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="card-body space-y-3">
-            <div className="form-control w-full text-start">
-              <label className="label p-0 mb-1 font-medium text-gray-700 text-start">
+            <div className="form-control w-full">
+              <label className="label p-0 mb-1 font-medium text-gray-700">
                 Email
               </label>
               <input
                 {...register("email", { required: true })}
                 type="email"
-                className="input input-bordered w-full text-start"
+                className="input input-bordered w-full"
                 placeholder="Enter your email"
               />
               {errors.email && (
-                <span className="text-red-500 text-sm mt-1 text-start">
+                <span className="text-red-500 text-sm mt-1">
                   Email is required
                 </span>
               )}
             </div>
 
-            <div className="form-control w-full text-start mt-3">
-              <label className="label p-0 mb-1 font-medium text-gray-700 text-start">
+            <div className="form-control w-full mt-3">
+              <label className="label p-0 mb-1 font-medium text-gray-700">
                 Password
               </label>
               <input
                 {...register("password", { required: true })}
                 type="password"
-                className="input input-bordered w-full text-start"
+                className="input input-bordered w-full"
                 placeholder="Enter your password"
               />
               {errors.password && (
-                <span className="text-red-500 text-sm mt-1 text-start">
+                <span className="text-red-500 text-sm mt-1">
                   Password is required
                 </span>
               )}
@@ -91,17 +133,14 @@ const LogIn = () => {
 
             <button className="btn btn-primary w-full mt-3">Login</button>
 
-            <p className="text-sm text-center text-gray-600">
+            <p className="text-sm text-center text-gray-600 mt-2">
               Don’t have an account?{" "}
-              <Link
-                to="/registration"
-                className="text-indigo-600 font-semibold underline"
-              >
+              <Link to="/registration" className="text-indigo-600 font-semibold underline">
                 Register
               </Link>
             </p>
 
-            <div className="divider my-1">or</div>
+            <div className="divider my-2">or</div>
 
             <button
               onClick={handleGoogle}
