@@ -51,10 +51,7 @@ const NavBar = () => {
       <li className="font-semibold ">
         <NavLink to="/registration">Registration</NavLink>
       </li>
-      <li className="font-semibold ">
-        <NavLink to="/login">Login</NavLink>
-      </li>
-
+   
       {user && (
         <>
           <li className="font-semibold ">
@@ -110,26 +107,30 @@ const NavBar = () => {
               {" "}
               {/* <Link>Log Out</Link> */}
               <li className="relative group">
-               <img className="w-[60px] h-[60px] rounded-full" src={user.photoURL} alt="" />
+                <img
+                  className="w-[60px] h-[60px] rounded-full"
+                  src={user.photoURL}
+                  alt=""
+                />
 
                 {/* Dropdown menu */}
                 <ul className="absolute left-0 mt-2 w-30 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300">
-                  <li>
-                    <a
-                      href="/tracking"
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      Live Tracking
-                    </a>
+                  <li className="block px-2 font-bold shadow-sm py-2 hover:bg-gray-100 text-start">
+                    {user.displayName}
                   </li>
-                  <li>
-                    <a
-                      href="/support"
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      24/7 Support
-                    </a>
+                  <li
+                    className="block px-1 py-1 font-bold hover:bg-gray-100 shadow-sm"
+                    onClick={handleLogOut}
+                  >
+                    LogOut
                   </li>
+                  <Link
+                    to={"/profile"}
+                    className="block px-1 font-bold py-1 hover:bg-gray-100 shadow-sm"
+                    onClick={handleLogOut}
+                  >
+                    Profile
+                  </Link>
                 </ul>
               </li>
               {/* ==================== */}
