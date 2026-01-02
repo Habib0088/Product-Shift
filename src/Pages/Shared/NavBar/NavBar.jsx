@@ -51,7 +51,7 @@ const NavBar = () => {
       <li className="font-semibold ">
         <NavLink to="/registration">Registration</NavLink>
       </li>
-   
+
       {user && (
         <>
           <li className="font-semibold ">
@@ -103,7 +103,7 @@ const NavBar = () => {
         </div>
         <div className="navbar-end">
           {user ? (
-            <button onClick={handleLogOut}>
+            <button >
               {" "}
               {/* <Link>Log Out</Link> */}
               <li className="relative group">
@@ -115,22 +115,21 @@ const NavBar = () => {
 
                 {/* Dropdown menu */}
                 <ul className="absolute left-0 mt-2 w-30 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300">
-                  <li className="block px-2 font-bold shadow-sm py-2 hover:bg-gray-100 text-start">
+                  <Link to={'/profile'} className="block px-2 font-bold shadow-sm py-2 hover:bg-gray-100 text-start">
                     {user.displayName}
-                  </li>
+                  </Link>
                   <li
                     className="block px-1 py-1 font-bold hover:bg-gray-100 shadow-sm"
                     onClick={handleLogOut}
                   >
                     LogOut
                   </li>
-                  <Link
+                  {/* <Link
                     to={"/profile"}
                     className="block px-1 font-bold py-1 hover:bg-gray-100 shadow-sm"
-                    onClick={handleLogOut}
                   >
                     Profile
-                  </Link>
+                  </Link> */}
                 </ul>
               </li>
               {/* ==================== */}

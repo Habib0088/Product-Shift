@@ -7,6 +7,8 @@ import { Link } from "react-router";
 
 const MyParcel = () => {
   const { user } = useAuth();
+  // console.log(user);
+  
   const axiosSecure = useAxiosSecure();
 
   const { data: parcels = [], refetch } = useQuery({
