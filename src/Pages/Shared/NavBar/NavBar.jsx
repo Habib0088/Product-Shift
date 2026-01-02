@@ -8,9 +8,9 @@ const NavBar = () => {
   const { user, logOut } = useAuth();
   // const{role}=useRole()
   // console.log(role);
-  
+
   // console.log(user);
-  
+
   const handleLogOut = () => {
     logOut()
       .then()
@@ -18,29 +18,29 @@ const NavBar = () => {
   };
   const links = (
     <>
-    {/* <li>{role}</li> */}
-      <li>
-        <NavLink to="">Service</NavLink>
+      {/* <li>{role}</li> */}
+      <li className="font-semibold ">
+        <NavLink to="">Home</NavLink>
       </li>
-      <li>
+      <li className="font-semibold ">
         <NavLink to="/coverage">Coverage</NavLink>
       </li>
-      <li>
+      <li className="font-semibold ">
         <NavLink to="/sendParcel">Send Parcel</NavLink>
       </li>
-      <li>
+      <li className="font-semibold ">
         <NavLink to="/rider">Be A Rider</NavLink>
       </li>
-      <li>
+      <li className="font-semibold ">
         <NavLink to="/registration">Registration</NavLink>
       </li>
-      <li>
+      <li className="font-semibold ">
         <NavLink to="/login">Login</NavLink>
       </li>
 
       {user && (
         <>
-          <li>
+          <li className="font-semibold ">
             <NavLink to="/dashboard/myParcel">My Parcel</NavLink>
           </li>
         </>
@@ -48,8 +48,8 @@ const NavBar = () => {
     </>
   );
   return (
-    <div className="  shadow-sm ">
-      <div className="navbar max-w-11/12 mx-auto">
+    <div className="bg-gray-200 ">
+      <div className=" navbar w-11/12 mx-auto z-50 mb-7">
         <div className="navbar-start ">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

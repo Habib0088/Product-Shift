@@ -31,11 +31,11 @@ const Coverage = () => {
   };
 
   return (
-    <div>
-      <h1 className="font-bold text-2xl my-5">Our Service in 64 Districts</h1>
+    <div className="w-11/12  mx-auto">
+      <h1 className="font-bold text-2xl my-5 mx-auto">Our Service in 64 Districts</h1>
       <div>
         {/* Serach */}
-        <form onSubmit={handleSerach}>
+        <form className=" mb-3" onSubmit={handleSerach}>
           <label className="input">
             <svg
               className="h-[1em] opacity-50"
@@ -65,7 +65,7 @@ const Coverage = () => {
         </form>
       </div>
       {/* Map */}
-      <div className="h-[600px] w-11/12 mx-auto">
+      <div className="h-[600px] w-full  mx-auto">
         <MapContainer
           className="h-[600px]"
           center={position}
