@@ -13,102 +13,117 @@ const UsersManagement = () => {
       return res.data;
     },
   });
+
   const handleAddAdmin = (user) => {
-    const userInfo = {
-      role: "admin",
-    };
+    const userInfo = { role: "admin" };
     axiosSecure
       .patch(`/user/${user._id}`, userInfo)
       .then((res) => {
-        if (res.data.modifiedCount) {
-          refetch();
-        }
-
-        console.log(res.data);
+        if (res.data.modifiedCount) refetch();
       })
       .catch((err) => console.log(err));
   };
-  const handleAddUser=(user)=>{
-    const userInfo={
-        role:'user'
-    }
-    axiosSecure.patch(`/user/${user._id}`,userInfo).then(res=>{
-        console.log(res.data);
-        if(res.data.modifiedCount){
-            refetch()
-        }
-    }).catch(err=>console.log(err.message)
-    )
 
-  }
+  const handleAddUser = (user) => {
+    const userInfo = { role: "user" };
+    axiosSecure
+      .patch(`/user/${user._id}`, userInfo)
+      .then((res) => {
+        if (res.data.modifiedCount) refetch();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <div>
-      <h1>Users : {users.length}</h1>
+    <div className="w-11/12 mx-auto my-10">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+          Users Management ({users.length})
+        </h1>
+        <p className="text-gray-500 mt-2">
+          View all users and manage roles. Promote or demote users easily.
+        </p>
+      </div>
 
-      <div className="overflow-x-auto">
-        <table className="table">
-          {/* head */}
-          <thead>
+      {/* Table */}
+      <div className="overflow-x-auto rounded-lg shadow border border-gray-200">
+        <table className="min-w-full table-auto text-left">
+          <thead className="bg-gray-100 text-gray-700 uppercase text-sm">
             <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Admin Action</th>
-              <th>Other Action</th>
+              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Email</th>
+              <th className="px-4 py-3">Role</th>
+              <th className="px-4 py-3">Admin Action</th>
+              <th className="px-4 py-3">Other Action</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user, index) => (
-              <tr>
-                <th>{index + 1}</th>
-                <td>
+              <tr
+                key={user._id}
+                className="border-b border-gray-200 hover:bg-gray-50 transition"
+              >
+                <td className="px-4 py-3">{index + 1}</td>
+                <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
                         <img
                           src={user?.photoURL}
-                          alt="Avatar Tailwind CSS Component"
+                          alt="Avatar"
+                          className="object-cover"
                         />
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{user.displayName}</div>
+                      <div className="font-medium text-gray-800">
+                        {user.displayName}
+                      </div>
                     </div>
                   </div>
                 </td>
-                <td>
-                  {user?.email}
-                  <br />
-                </td>
-                <td>
+                <td className="px-4 py-3 text-gray-600">{user?.email}</td>
+                <td className="px-4 py-3 text-gray-700 font-medium">
                   {user?.role}
-                  <br />
                 </td>
-                <td >
-                  {/* Here */}
+                <td className="px-4 mt-4 py-3 flex gap-2">
                   {user.role === "admin" ? (
-                    <button onClick={()=>handleAddUser(user)} className="btn bg-red-400">
-                      
+                    <button
+                      onClick={() => handleAddUser(user)}
+                      className="flex items-center justify-center px-3  bg-red-100 text-red-600 rounded hover:bg-red-200 transition"
+                      title="Demote to User"
+                    >
                       <BsShieldSlashFill />
                     </button>
                   ) : (
                     <button
-                      className="bg-green-400 btn"
+                      className="flex items-center justify-center px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
                       onClick={() => handleAddAdmin(user)}
+                      title="Promote to Admin"
                     >
                       <FaUserShield />
                     </button>
                   )}
                 </td>
-                <th>
-                  <button className="btn ">details</button>
-                </th>
+                <td className="px-4 py-3">
+                  <button className="btn btn-sm bg-gray-200 hover:bg-gray-300 text-gray-800">
+                    Details
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Empty state */}
+      {users.length === 0 && (
+        <div className="text-center text-gray-500 mt-10">
+          No users found.
+        </div>
+      )}
     </div>
   );
 };
