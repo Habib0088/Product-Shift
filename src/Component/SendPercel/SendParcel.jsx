@@ -10,7 +10,7 @@ const SendParcel = () => {
   const { user } = useAuth();
 
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://rideshift.vercel.app",
   });
 
   const { register, handleSubmit, watch } = useForm();

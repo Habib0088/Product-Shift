@@ -56,3 +56,84 @@ const Footer = () => {
 };
 
 export default Footer;
+// import React from "react";
+// import Logo from "../../../Component/Logo/Logo";
+// import { Link } from "react-router-dom";
+
+// const Footer = () => {
+//   return (
+//     <footer className="bg-gray-100 text-gray-700">
+//       <div className="container mx-auto px-6 py-10 md:flex md:justify-between md:items-start">
+//         {/* Logo & Info */}
+//         <div className="text-center md:text-left mb-8 md:mb-0">
+//           <Logo />
+//           <p className="font-bold text-lg mt-3">
+//             ACME Industries Ltd.
+//           </p>
+//           <p className="text-sm text-gray-500">
+//             Providing reliable tech since 1992
+//           </p>
+//           <p className="text-xs text-gray-400 mt-2">
+//             &copy; {new Date().getFullYear()} All rights reserved
+//           </p>
+//         </div>
+
+//         {/* Navigation Links */}
+//         <div className="flex justify-center md:justify-start gap-6">
+//           <Link
+//             to="https://x.com/"
+//             target="_blank"
+//             className="hover:text-blue-500 transition-colors duration-300"
+//           >
+//             <svg
+//               xmlns="http://www.w3.org/2000/svg"
+//               width="28"
+//               height="28"
+//               viewBox="0 0 24 24"
+//               className="fill-current"
+//             >
+//               <path d="M24 4.557c-.883.392-1.832.656-2.828.775 ..."></path>
+//             </svg>
+//           </Link>
+//           <Link
+//             to="https://www.youtube.com/"
+//             target="_blank"
+//             className="hover:text-red-500 transition-colors duration-300"
+//           >
+//             <svg
+//               xmlns="http://www.w3.org/2000/svg"
+//               width="28"
+//               height="28"
+//               viewBox="0 0 24 24"
+//               className="fill-current"
+//             >
+//               <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0 ..."></path>
+//             </svg>
+//           </Link>
+//           <Link
+//             to="https://www.facebook.com/"
+//             target="_blank"
+//             className="hover:text-blue-700 transition-colors duration-300"
+//           >
+//             <svg
+//               xmlns="http://www.w3.org/2000/svg"
+//               width="28"
+//               height="28"
+//               viewBox="0 0 24 24"
+//               className="fill-current"
+//             >
+//               <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667 ..."></path>
+//             </svg>
+//           </Link>
+//         </div>
+//       </div>
+
+//       {/* Bottom Section */}
+//       <div className="bg-gray-200 text-gray-500 text-xs text-center py-3">
+//         Made with ❤️ by ACME Industries
+//       </div>
+//     </footer>
+//   );
+// };
+
+// export default Footer;

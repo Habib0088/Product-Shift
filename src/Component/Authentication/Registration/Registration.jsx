@@ -76,7 +76,7 @@ const Registration = () => {
             email: data.email,
           };
           axiosSecure
-            .post("http://localhost:3000/users", userProfileCreate)
+            .post("/users", userProfileCreate)
             .then((res) => {
               if (res.data.insertedId) {
                 showToast("Registered successfully!");

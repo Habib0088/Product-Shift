@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 // Create Axios instance
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://rideshift.vercel.app",
 });
 
 const useAxiosSecure = () => {
